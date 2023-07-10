@@ -1,0 +1,15 @@
+//@use '../abstracts/buttons' as *;
+//
+//// ? For All Sizes
+//@each $buttonSize, $sizeValue in $button_sizes {
+//    // ? For All Colors
+//    @each $buttonColors, $colorValue in $button_colors {
+//        // ? For All Modifires
+//        @each $buttonModifire, $modifireValue in $button_modifires {
+//            .btn-#{"" + $buttonSize}-#{"" + $buttonColors}-#{"" + $buttonModifire} {
+//                @include createButton($buttonSize);
+//                @include buttonModifire($modifireValue, $colorValue, $buttonSize);
+//            }
+//        }
+//    }
+//}

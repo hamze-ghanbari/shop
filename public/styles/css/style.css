@@ -1,0 +1,15 @@
+.email-box {
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 1px 1px 7px 1px #ece4dc;
+}
+
+.logo-box {
+  width: 220px;
+  height: 220px;
+  background-color: #a69e9e;
+}
+
+.code {
+  letter-spacing: 10px;
+}

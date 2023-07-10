@@ -1,0 +1,11 @@
+{
+    "name": "SiteVisitors",
+    "alias": "sitevisitors",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\SiteVisitors\\Providers\\SiteVisitorsServiceProvider"
+    ],
+    "files": []
+}

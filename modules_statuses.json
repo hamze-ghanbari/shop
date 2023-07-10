@@ -1,0 +1,19 @@
+{
+    "User": true,
+    "Banner": true,
+    "SiteVisitors": true,
+    "Notification": true,
+    "Setting": true,
+    "Product": true,
+    "NewsLetter": true,
+    "Faq": true,
+    "Ticket": true,
+    "Uploader": true,
+    "Auth": true,
+    "Post": true,
+    "Discount": true,
+    "Mail": true,
+    "Sms": true,
+    "Provider": true,
+    "AppServiceProvider": true
+}

@@ -1,0 +1,106 @@
+@use '../abstracts/fonts' as *;
+
+.hero-text {
+    @include IRANSansWeb_Bold;
+    font-weight: 700;
+    line-height: 1.5;
+    font-size: 3rem;
+}
+
+.title-1 {
+    @include IRANSansWeb_Bold;
+    font-size: 2rem;
+    line-height: 1.5;
+    font-weight: 600;
+}
+
+.title-2 {
+    @include IRANSansWeb_Bold;
+    font-size: 1.5rem;
+    line-height: 1.5;
+    font-weight: 600;
+}
+
+.title-3 {
+    @include IRANSansWeb_Medium;
+    font-size: 2rem;
+    line-height: 1.2;
+    font-weight: 500;
+}
+
+.title-4 {
+    @include IRANSansWeb_Light;
+    font-size: 1.125rem;
+    line-height: 1.5;
+    font-weight: 600;
+}
+
+.title-5 {
+    @include IRANSansWeb_Medium;
+    font-size: 1.5rem;
+    line-height: 1.2;
+    font-weight: 500;
+}
+
+.body-copy-strong {
+    @include IRANSansWeb_Bold;
+    font-size: 1rem;
+    line-height: 2;
+    font-weight: 600;
+}
+
+.body-copy-medium {
+    @include IRANSansWeb_Medium;
+    font-size: 1rem;
+    line-height: 2;
+    font-weight: 500;
+}
+
+.body-copy-light {
+    @include IRANSansWeb_Light;
+    font-size: 1rem;
+    line-height: 2;
+    font-weight: 400;
+}
+
+.small-copy-strong {
+    @include IRANSansWeb_Bold;
+    font-size: 0.875rem;
+    line-height: 2;
+    font-weight: 600;
+}
+
+.small-copy-medium {
+    @include IRANSansWeb_Medium;
+    font-size: 0.875rem;
+    line-height: 2;
+    font-weight: 500;
+}
+
+.small-copy-light {
+    @include IRANSansWeb_Light;
+    font-size: 0.875rem;
+    line-height: 2;
+    font-weight: 400;
+}
+
+.caption-strong {
+    @include IRANSansWeb_Bold;
+    font-size: 0.75rem;
+    line-height: 2;
+    font-weight: 600;
+}
+
+.caption-medium {
+    @include IRANSansWeb_Medium;
+    font-size: 0.75rem;
+    line-height: 2;
+    font-weight: 500;
+}
+
+.caption-light {
+    @include IRANSansWeb_Light;
+    font-size: 0.75rem;
+    line-height: 2;
+    font-weight: 400;
+}

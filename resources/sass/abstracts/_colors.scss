@@ -1,0 +1,61 @@
+$colors: (
+    black: (
+        default : black,
+        shade-1: #575757,
+    ),
+    white: (
+        default : white,
+        shade-1 : #f2efef ,
+    ),
+    dark-blue: (
+        default: #243646,
+        shade-1: #2d4860,
+        shade-2: #274259,
+        shade-3: #273f56,
+    ),
+    // border button
+    orange: (
+        default: #ffb049,
+        shade-1: #f3b05a,
+        shade-2: #efa13d,
+        shade-3: #f6a53a,
+    ),
+    red: (
+        default: #d52027,
+        shade-1: #d23b40,
+        shade-2: #cb2d31,
+        shade-3: #c90303,
+    ),
+    // background
+    light: (
+        default: #f5eadd,
+        shade-1: #ece4dc,
+        shade-2: #d0cac4,
+        shade-3: #b6afa9,
+    ),
+    gray: (
+        default: #989696,
+        shade-1: #bebcbc,
+        shade-2: #b2b0b0,
+        shade-3: #a69e9e,
+    ),
+    primary: (
+        default : #19bfd3,
+        shade-1 : #3d3dfc,
+        shade-2 : #4169E1
+    ),
+    green: (
+        default : green,
+        shade-1 : #06bd06
+    ),
+    //action: (
+    //    add : (),
+    //    delete : (),
+    //    edit : (),
+    //    show : ()
+    //)
+);
+
+@function setColor($colorName, $shade: default) {
+    @return map-get(map-get($colors, $colorName), $shade);
+}

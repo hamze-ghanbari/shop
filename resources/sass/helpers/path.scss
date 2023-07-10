@@ -1,0 +1,5 @@
+$currentModule: "./";
+
+@function setUrl($file) {
+    @return $currentModule + $file;
+}

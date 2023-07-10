@@ -1,0 +1,123 @@
+.persian-number, .hero-text, .title-1, .title-2, .title-3, .title-4, .title-5, .body-copy-strong, .body-copy-medium, .body-copy-light, .small-copy-strong, .small-copy-medium, .small-copy-light, .caption-strong, .caption-medium, .caption-light {
+  font-feature-settings: "ss02";
+}
+
+@font-face {
+  font-family: IRANSansWeb_Bold;
+  src: url(/fonts/IRANSansWeb_Bold.woff2?fc9fc75a8353b329813e0c5e94262bd3) format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: IRANSansWeb_Medium;
+  src: url(/fonts/IRANSansWeb_Medium.woff2?4e871a305f8737ed289b7eb1d823e6a4) format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: IRANSansWeb_Light;
+  src: url(/fonts/IRANSansWeb_Light.woff2?f9ada7e5233f3a92347b7531c06f2336) format("woff2");
+  font-display: swap;
+}
+.hero-text {
+  font-family: IRANSansWeb_Bold, sans-serif;
+  font-weight: 700;
+  line-height: 1.5;
+  font-size: 3rem;
+}
+
+.title-1 {
+  font-family: IRANSansWeb_Bold, sans-serif;
+  font-size: 2rem;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+.title-2 {
+  font-family: IRANSansWeb_Bold, sans-serif;
+  font-size: 1.5rem;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+.title-3 {
+  font-family: IRANSansWeb_Medium, sans-serif;
+  font-size: 2rem;
+  line-height: 1.2;
+  font-weight: 500;
+}
+
+.title-4 {
+  font-family: IRANSansWeb_Light, sans-serif;
+  font-size: 1.125rem;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+.title-5 {
+  font-family: IRANSansWeb_Medium, sans-serif;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  font-weight: 500;
+}
+
+.body-copy-strong {
+  font-family: IRANSansWeb_Bold, sans-serif;
+  font-size: 1rem;
+  line-height: 2;
+  font-weight: 600;
+}
+
+.body-copy-medium {
+  font-family: IRANSansWeb_Medium, sans-serif;
+  font-size: 1rem;
+  line-height: 2;
+  font-weight: 500;
+}
+
+.body-copy-light {
+  font-family: IRANSansWeb_Light, sans-serif;
+  font-size: 1rem;
+  line-height: 2;
+  font-weight: 400;
+}
+
+.small-copy-strong {
+  font-family: IRANSansWeb_Bold, sans-serif;
+  font-size: 0.875rem;
+  line-height: 2;
+  font-weight: 600;
+}
+
+.small-copy-medium {
+  font-family: IRANSansWeb_Medium, sans-serif;
+  font-size: 0.875rem;
+  line-height: 2;
+  font-weight: 500;
+}
+
+.small-copy-light {
+  font-family: IRANSansWeb_Light, sans-serif;
+  font-size: 0.875rem;
+  line-height: 2;
+  font-weight: 400;
+}
+
+.caption-strong {
+  font-family: IRANSansWeb_Bold, sans-serif;
+  font-size: 0.75rem;
+  line-height: 2;
+  font-weight: 600;
+}
+
+.caption-medium {
+  font-family: IRANSansWeb_Medium, sans-serif;
+  font-size: 0.75rem;
+  line-height: 2;
+  font-weight: 500;
+}
+
+.caption-light {
+  font-family: IRANSansWeb_Light, sans-serif;
+  font-size: 0.75rem;
+  line-height: 2;
+  font-weight: 400;
+}

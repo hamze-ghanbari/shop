@@ -1,0 +1,31 @@
+.box-profile {
+  border: 1px solid setColor(gray, "shade-3");
+  border-radius: 8px;
+}
+
+.border-left {
+  border-left: 1px solid setColor(gray, "shade-1");
+}
+@media (max-width: 576px) {
+  .border-left {
+    border-left: 0 !important;
+  }
+}
+
+.info-box {
+  min-height: 80px;
+  height: auto;
+}
+
+.date-box-filter {
+  border-radius: 20px;
+  border: 1px solid setColor(gray, "shade-3");
+  height: 50px;
+}
+.date-box-filter input {
+  outline: none;
+}
+
+.select-birth-date {
+  width: 95%;
+}

@@ -1,0 +1,16 @@
+@use '../abstracts/colors' as *;
+.email-box{
+    background-color: setColor(white);
+    border-radius: 5px;
+    box-shadow: 1px 1px 7px 1px setColor(light, shade-1);
+}
+
+.logo-box{
+    width: 220px;
+    height: 220px;
+    background-color: setColor(gray, 'shade-3');
+}
+
+.code{
+    letter-spacing: 10px;
+}

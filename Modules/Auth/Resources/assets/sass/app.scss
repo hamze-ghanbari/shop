@@ -1,0 +1,68 @@
+@use '../../../../../resources/sass/abstracts/colors' as *;
+
+.main-content{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-section{
+    width: 400px;
+    height: auto;
+    padding: 16px;
+    background-color: setColor(white);
+    //border: 1px solid setColor(gray, 'shade-1');
+    border-radius: 5px;
+    box-shadow: 1px 1px 7px 1px setColor(light, shade-1);
+}
+
+.text-field-box{
+    border: 1px solid setColor(gray, 'shade-3');
+    border-radius: 8px;
+    padding: 12px !important;
+}
+
+.text-field{
+    border: 0;
+    outline: none;
+    caret-color: setColor(green);
+}
+
+.login-btn{
+    border-radius: 8px;
+    outline: none;
+    padding: 12px !important;
+    min-height: 54px;
+    &:focus {
+        outline: none !important;
+        box-shadow: none;
+    }
+}
+
+.code-field{
+    border: 1px solid setColor(gray, 'shade-3')!important;
+    padding: 10px !important;
+    letter-spacing: 1rem;
+    //outline: none;
+    //width: 50px;
+    //height: 50px;
+}
+
+.success-box{
+    width: 80px;
+    height: 80px;
+    border: 1px solid setColor(gray, 'shade-1');
+    i{
+        font-size: 60px;
+    }
+}
+
+@media (max-width: 576px) {
+    .login-section{
+        width: 95% !important;
+        box-shadow: none;
+    }
+}
+
