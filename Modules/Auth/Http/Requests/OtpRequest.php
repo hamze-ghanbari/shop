@@ -47,4 +47,11 @@ class OtpRequest extends FormRequest
             'confirm_code.max' => 'کد تایید نباید بیشتر از 5 رقم باشد'
         ];
     }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'confirm_code' => convertPersianToEnglish($this->confirm_code)
+        ]);
+    }
 }

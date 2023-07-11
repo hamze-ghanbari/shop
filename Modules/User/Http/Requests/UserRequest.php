@@ -15,9 +15,9 @@ class UserRequest extends FormRequest
             'first_name' => ['max:30', new BlackListRule()],
             'last_name' => [ 'max:30', new BlackListRule()],
             'national_code' => [new NationalCodeRule()],
-            'mobile' => [config('constants.mobile_regex')],
-            'email' => [config('constants.email_regex')],
-            'birth_date' => ['regex:/^([1][3|4][0-9]{2}\/[0-9]{2}\/[0-9]{2})$/']
+             'mobile' => config('constants.mobile_regex'),
+            'email' => config('constants.email_regex'),
+            'birth_date' => 'date_format:Y/m/d'
         ];
     }
 
@@ -34,10 +34,16 @@ class UserRequest extends FormRequest
 
     public function messages(){
         return [
-            'birth_date.regex' => 'فرمت تاریخ معتبر نمی باشد'
+            'birth_date.date_format' => 'فرمت تاریخ معتبر نمی باشد'
         ];
     }
 
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'national_code' => convertPersianToEnglish($this->national_code)
+        ]);
+    }
 
 
     public function authorize()
