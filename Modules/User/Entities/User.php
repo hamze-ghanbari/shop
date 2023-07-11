@@ -3,6 +3,7 @@
 namespace Modules\User\Entities;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Casts\PersianDateCast;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -44,7 +45,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'mobile_verified_at' => 'datetime',
-//        'birth_date' => 'datetime',0
+        'birth_date' => PersianDateCast::class,
     ];
 
 
@@ -65,18 +66,6 @@ class User extends Authenticatable
             }
         }
     );
-    }
-
-    protected function birthDate(): Attribute
-    {
-        return Attribute::make(
-            get: fn (string | null $value) => isset($value) ? jalaliDate($value, 'Y/m/d') : null,
-            set: function (string $value) {
-//                $time = str_replace('-', '', $value);
-//                $time = substr($time, 0 , -3);
-               return Jalalian::fromFormat('Y/m/d', $value)->toCarbon();
-            }
-        );
     }
 
     protected function createdAt(): Attribute{
