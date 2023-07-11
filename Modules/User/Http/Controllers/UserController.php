@@ -57,7 +57,10 @@ class UserController extends Controller
             array_push($days, $day);
         }
 
-        list($userYear, $userMonth, $userDay) = explode('/', $user->birth_date);
+        list($userYear, $userMonth, $userDay) = isset($user->birth_date)
+            ? explode('/', $user->birth_date)
+            : [null, null, null];
+
         return view('user_module::users.detail', compact('user', 'years', 'months', 'days', 'userYear', 'userMonth', 'userDay'));
     }
 
