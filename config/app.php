@@ -197,7 +197,6 @@ return [
         App\Providers\DirectiveServiceProvider::class,
         App\Providers\MacroServiceProvider::class,
         App\Providers\MacroServiceProvider::class,
-        App\Providers\RepositoryServiceProvider::class,
         App\Providers\ViewServiceProvider::class,
 //        App\Providers\RequestServiceProvider::class,
     ],
