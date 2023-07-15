@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Repository\Contracts;
+namespace Modules\Auth\Repository;
 
-interface UserRepositoryInterface
+interface OtpRepositoryInterface
 {
-
 
 }

@@ -87,49 +87,49 @@
                                     {{$user->created_at}}
                                 </td>
                                 <td>
-                                    <div class="overflow-auto d-flex flex-wrap justify-content-center py-2">
+                                    <div class="overflow-auto d-flex flex-wrap  py-2">
                                         @if(isset($user->mobile) && isset($user->mobile_verified_at))
                                             <a href="{{route('roles.permission.show', ['role' => $user->id])}}"
                                                data-bs-toggle="tooltip" data-bs-placement="right" title="ارسال پیامک"
-                                               class="action-icon  rounded-circle flex-center bg-orange__shade-3 white__default mx-1 mb-2">
+                                               class="action-icon  rounded-circle flex-center bg-orange__shade-3 white__default me-1 mb-2">
                                                 <i class="fa-solid fa-sms"></i>
                                             </a>
                                         @endif
                                         @if(isset($user->email) && isset($user->email_verified_at))
                                             <a href="{{route('roles.permission.show', ['role' => $user->id])}}"
                                                data-bs-toggle="tooltip" data-bs-placement="right" title="ارسال ایمیل"
-                                               class="action-icon  rounded-circle flex-center bg-green__default white__default mx-1  mb-2">
+                                               class="action-icon  rounded-circle flex-center bg-green__default white__default me-1  mb-2">
                                                 <i class="fa-solid fa-mail-bulk"></i>
                                             </a>
                                         @endif
                                         <a href="{{route('users.role.show', ['user' => $user->id])}}"
                                            data-bs-toggle="tooltip" data-bs-placement="right" title="افزودن نقش کاربری"
-                                           class="action-icon rounded-circle flex-center bg-primary__shade-1 white__default mx-1  mb-2">
+                                           class="action-icon rounded-circle flex-center bg-primary__shade-1 white__default me-1  mb-2">
                                             <i class="fa-solid fa-user-cog"></i>
                                         </a>
                                         <a href="{{route('users.permission.show', ['user' => $user->id])}}"
                                            data-bs-toggle="tooltip" data-bs-placement="right" title="افزودن سطوح دسترسی"
-                                           class="action-icon rounded-circle flex-center bg-dark-blue__shade-1 white__default mx-1  mb-2">
+                                           class="action-icon rounded-circle flex-center bg-dark-blue__shade-1 white__default me-1  mb-2">
                                             <i class="fa-solid fa-user-check"></i>
                                         </a>
                                         <a href="{{route('users.profile', ['user' => $user->id])}}"
                                            data-bs-toggle="tooltip" data-bs-placement="right" title="نمایش جزئیات"
-                                           class="action-icon  rounded-circle flex-center bg-primary__shade-2 white__default mx-1 mb-2">
+                                           class="action-icon  rounded-circle flex-center bg-primary__shade-2 white__default me-1 mb-2">
                                             <i class="fa-solid fa-info"></i>
                                         </a>
                                         <a href="{{route('users.download', ['user' => $user->id])}}"
                                            data-bs-toggle="tooltip" data-bs-placement="right" title="دانلود اطلاعات"
-                                           class="action-icon  rounded-circle flex-center bg-green__shade-1 white__default mx-1 mb-2">
+                                           class="action-icon  rounded-circle flex-center bg-green__shade-1 white__default me-1 mb-2">
                                             <i class="fa-solid fa-file-excel"></i>
                                         </a>
                                         <a href="{{route('roles.edit', ['role' => $user->id])}}"
                                            data-bs-toggle="tooltip" data-bs-placement="right" title="ویرایش کاربر"
-                                           class="action-icon bg-dark-blue__default white__default mx-1 mb-2">
+                                           class="action-icon gg bg-dark-blue__default white__default me-1 mb-2">
                                             <i class="fa-solid fa-edit"></i>
                                         </a>
                                         <a href="{{route('users.destroy', ['user' => $user->id])}}" id="{{$user->id}}"
-                                           data-bs-toggle="tooltip" data-bs-placement="right" title="حذف کاربر"
-                                           class="action-icon delete-user bg-red__shade-3 white__default mx-1 mb-2">
+                                           class="action-icon delete-user bg-red__shade-3 white__default me-1 mb-2"
+                                           data-bs-toggle="tooltip" data-bs-placement="right" title="حذف کاربر">
                                             <i class="fa-solid fa-trash"></i>
                                         </a>
                                     </div>

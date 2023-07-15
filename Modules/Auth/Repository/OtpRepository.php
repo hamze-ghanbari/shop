@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Repository\Eloquent;
+namespace Modules\Auth\Repository;
 
-use App\Repository\Contracts\UserRepositoryInterface;
-use Modules\User\Entities\User;
+use App\Repository\Eloquent\BaseRepository;
+use Modules\Auth\Entities\Otp;
 
-class UserRepository extends BaseRepository implements UserRepositoryInterface
+class OtpRepository extends BaseRepository implements OtpRepositoryInterface
 {
 
     public function model()
     {
-        return User::class;
+        return Otp::class;
     }
+
 }
