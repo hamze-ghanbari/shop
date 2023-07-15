@@ -2,7 +2,6 @@
 
 namespace Modules\User\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Response;
@@ -29,21 +28,11 @@ class UserController extends Controller
         return view('user_module::create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Renderable
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
     public function show(User $user)
     {
         $years = [];
@@ -64,22 +53,11 @@ class UserController extends Controller
         return view('user_module::users.detail', compact('user', 'years', 'months', 'days', 'userYear', 'userMonth', 'userDay'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
     public function edit(User $user)
     {
         return view('user_module::users.edit', compact('user'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
-     */
     public function update(Request $request, $id)
     {
         //
@@ -121,14 +99,9 @@ class UserController extends Controller
         );
     }
 
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
-     */
     public function destroy(User $user)
     {
-        $userDelete = $this->userService->deleteUser($user);
+        $userDelete = $this->userService->deleteUser($user->id);
         if ($userDelete) {
             return result(
                 Response::postSuccess(route('users.index'), 'حذف کاربر با موفقیت انجام شد'),
@@ -143,11 +116,11 @@ class UserController extends Controller
     }
 
     public function updateName(UserRequest $request, User $user){
-        $updated = $user->update($request->fields());
+        $updated = $this->userService->updateProfile($request->fields(), $user->id);
         if ($updated) {
             return result(
                 Response::postSuccess(route('users.profile', ['user' => $user->id]), 'ویرایش با موفقیت انجام شد',
-                ['fullName' => $user->fullName]),
+                ['fullName' => "{$request->input('first_name')} {$request->input('last_name')}"]),
                 redirect()->back()
             );
         } else {
@@ -163,7 +136,7 @@ class UserController extends Controller
 //        $time = substr($time, 0 , -3);
 //        $birthDate = jalaliDate(date('Y/m/d', $time), 'Y/m/d');
 
-        $updated = $user->update($request->fields());
+        $updated = $this->userService->updateProfile($request->fields(), $user->id);
         if ($updated) {
             return result(
                 Response::postSuccess(route('users.profile', ['user' => $user->id]), 'ویرایش با موفقیت انجام شد',),
@@ -178,7 +151,7 @@ class UserController extends Controller
     }
 
     public function updatenatioanlCode(UserRequest $request, User $user){
-        $updated = $user->update($request->fields());
+        $updated = $this->userService->updateProfile($request->fields(), $user->id);
         if ($updated) {
             return result(
                 Response::postSuccess(route('users.profile', ['user' => $user->id]), 'ویرایش با موفقیت انجام شد',
