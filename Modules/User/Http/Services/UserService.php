@@ -3,19 +3,32 @@
 namespace Modules\User\Http\Services;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Modules\User\Entities\Permission;
-use Modules\User\Entities\Role;
 use Modules\User\Entities\User;
 use Modules\User\Http\Requests\UserRequest;
+use Modules\User\Repository\RoleRepository;
+use Modules\User\Repository\UserRepository;
 
 class UserService
 {
-    public function getSearchUsers(Request $request){
-        return User::with('roles')->search($request->query('search'), $request->query('filter-date'))->paginate(15);
+    public function __construct(
+        public UserRepository $userRepository,
+        public RoleRepository $roleRepository
+    )
+    {
     }
 
-    public function getRoles(User $user){
-        $roles = Role::all();
+    public function getSearchUsers(Request $request)
+    {
+//        return Cache::remember('users', 600, function () use($request) {
+            return $this->userRepository->with('roles')->search($request->query('search'), $request->query('filter-date'))->paginate(15);
+//        });
+    }
+
+    public function getRoles(User $user)
+    {
+        $roles = $this->roleRepository->all();
         $userRoleId = $user->roles()->pluck('id')->toArray();
         return [
             'roles' => $roles,
@@ -23,13 +36,15 @@ class UserService
         ];
     }
 
-    public function addRoleToUser(UserRequest $request, User $user){
+    public function addRoleToUser(UserRequest $request, User $user)
+    {
         $inputs = $request->all();
         $inputs['roles'] ??= [];
         $user->roles()->sync($inputs['roles']);
     }
 
-    public function getPermissions(User $user){
+    public function getPermissions(User $user)
+    {
         $permissions = Permission::all();
         $rolePermissionsId = $user->permissions()->pluck('id')->toArray();
         return [
@@ -38,14 +53,21 @@ class UserService
         ];
     }
 
-    public function addPermissionToUser(UserRequest $request, User $user){
+    public function addPermissionToUser(UserRequest $request, User $user)
+    {
         $inputs = $request->all();
         $inputs['permissions'] ??= [];
         $user->permissions()->sync($inputs['permissions']);
     }
 
-    public function deleteUser(User $user){
-        return $user->delete();
+    public function deleteUser($id)
+    {
+        return $this->userRepository->delete($id);
+    }
+
+    public function updateProfile($fields, $id)
+    {
+        return $this->userRepository->update($fields, $id);
     }
 
 }
