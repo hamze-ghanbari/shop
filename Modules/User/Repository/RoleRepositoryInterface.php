@@ -2,9 +2,7 @@
 
 namespace Modules\User\Repository;
 
-interface UserRepositoryInterface
+interface RoleRepositoryInterface
 {
-
-    public function getUserByField(string $field, string $value);
 
 }

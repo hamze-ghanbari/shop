@@ -90,7 +90,7 @@ class RoleController extends Controller
 
     public function destroy(Role $role)
     {
-        $roleDelete = $this->roleService->deleteRole($role);
+        $roleDelete = $this->roleService->deleteRole($role->id);
         if ($roleDelete) {
             return result(
                 Response::postSuccess(route('roles.index'), 'حذف نقش با موفقیت انجام شد'),
