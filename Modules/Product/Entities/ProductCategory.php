@@ -8,12 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProductCategory extends Model
 {
-    use HasFactory, SoftDeletes;
+    use  SoftDeletes;
 
     protected $fillable = [];
 
-    protected static function newFactory()
-    {
-        return \Modules\Product\Database\factories\ProductCategoryFactory::new();
-    }
 }

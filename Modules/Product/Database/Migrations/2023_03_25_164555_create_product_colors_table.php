@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('product_colors', function (Blueprint $table) {
             $table->id();
             $table->string('color_name');
-            $table->string('color')->nullable()->after('color_name');
+            $table->string('color')->nullable();
             $table->foreignId('product_id')->constrained('products')->onUpdate('cascade')->onDelete('cascade');
             $table->decimal('price_increase', 20, 3)->default(0);
             $table->boolean('status')->default(false);
