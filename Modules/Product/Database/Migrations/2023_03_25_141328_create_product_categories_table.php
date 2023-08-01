@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('image')->nullable();
             $table->boolean('status')->default(false);
             $table->boolean('show_in_menu')->default(false);
-            $table->foreignId('parent_id')->nullable()->constrained('product-categories')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('parent_id')->nullable()->constrained('product_categories');
             $table->timestamps();
             $table->softDeletes();
         });

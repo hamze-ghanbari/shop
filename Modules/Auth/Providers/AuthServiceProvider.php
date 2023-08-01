@@ -19,9 +19,14 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $moduleNameLower = 'auth_module';
 
-    public $bindings = [
+//    public $bindings = [
+//        OtpRepositoryInterface::class => OtpRepository::class
+//    ];
+
+    public $singletons = [
         OtpRepositoryInterface::class => OtpRepository::class
     ];
+
 
     /**
      * Boot the application events.

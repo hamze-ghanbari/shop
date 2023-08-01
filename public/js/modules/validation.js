@@ -275,8 +275,23 @@ export function getData(selectors, type = {}) {
     let typeInput;
     selectors.forEach((item) => {
         typeInput = type[item] === 'checkbox' ? ':checked' : '';
-        element = type[item] === 'textarea' ? 'textarea' : 'input';
-        data[item] = $(`${element}[name=${item}] ${typeInput}`).val()
+        // element = type[item] === 'textarea' ? 'textarea' : 'input';
+        switch (type[item]) {
+            case 'textarea' :
+                element = 'textarea'
+                break;
+            case 'select' :
+                element = 'select'
+                break;
+            default :
+                element = 'input'
+                break;
+        }
+        if (type[item] !== 'file') {
+            data[item] = $(`${element}[name=${item}]${typeInput}`).val();
+        } else {
+            data[item] = $(`${element}[name=${item}]`)[0].files[0];
+        }
     });
     return data;
 }

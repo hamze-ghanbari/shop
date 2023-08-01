@@ -22,7 +22,7 @@ class UserServiceProvider extends ServiceProvider
      */
     protected $moduleNameLower = 'user_module';
 
-    public $bindings = [
+    public $singletons = [
         UserRepositoryInterface::class => UserRepository::class,
         RoleRepositoryInterface::class => RoleRepository::class
     ];

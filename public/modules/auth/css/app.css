@@ -18,13 +18,14 @@
 .text-field-box {
   border: 1px solid #a69e9e;
   border-radius: 8px;
-  padding: 12px !important;
+  padding: 0 0 0 12px !important;
 }
 
 .text-field {
   border: 0;
   outline: none;
   caret-color: green;
+  padding: 0;
 }
 
 .login-btn {

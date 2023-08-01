@@ -43,6 +43,10 @@ class SideBarComposer
                         'route' => 'users.index'
                     ],
                     [
+                        'name' => 'دسته بندی ها',
+                        'route' => 'categories.index'
+                    ],
+                    [
                         'name' => ' پرسش کاربران',
                         'route' => 'users.index'
                     ],

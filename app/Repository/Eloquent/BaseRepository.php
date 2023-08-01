@@ -37,6 +37,16 @@ abstract class BaseRepository implements BaseRepositoryInterface
         return $this->model->find($id, $columns);
     }
 
+    public function findOrFail($id, $columns = ['*'])
+    {
+        return $this->model->findOrFail($id, $columns);
+    }
+
+    public function findOr($id, $callBack, $columns = ['*'])
+    {
+        return $this->model->findOr($id, $columns, $callBack);
+    }
+
     public function findByField($field, $value, $operator = null, $columns = ['*'])
     {
         return $this->model->where($field, $operator, $value)->get($columns);
@@ -46,8 +56,6 @@ abstract class BaseRepository implements BaseRepositoryInterface
     {
         return $this->model->where($where);
     }
-
-
 
     public function findWhereIn($field, array $values, $columns = ['*'])
     {
@@ -64,7 +72,8 @@ abstract class BaseRepository implements BaseRepositoryInterface
         return $this->model->whereBetween($field, $values)->get($columns);
     }
 
-    public function when($value, callable $callback){
+    public function when($value, callable $callback)
+    {
         return $this->model->when($value, $callback);
     }
 
