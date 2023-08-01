@@ -2,8 +2,12 @@
 
 namespace Modules\Product\Providers;
 
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Modules\Product\Entities\ProductCategory;
+use Modules\Product\Repository\CategoryRepository;
+use Modules\Product\Repository\CategoryRepositoryInterface;
 
 class ProductServiceProvider extends ServiceProvider
 {
@@ -17,17 +21,18 @@ class ProductServiceProvider extends ServiceProvider
      */
     protected $moduleNameLower = 'product';
 
-    /**
-     * Boot the application events.
-     *
-     * @return void
-     */
+    public $singletons = [
+        CategoryRepositoryInterface::class => CategoryRepository::class
+    ];
+
     public function boot()
     {
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
+
+        Route::model('category', ProductCategory::class);
     }
 
     /**
