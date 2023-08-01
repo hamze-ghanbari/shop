@@ -1,5 +1,6 @@
 export const RouteNames = {
-    'roles.create' : 'roles/create'
+    'roles.create' : 'roles/create',
+    'categories.create' : 'products/categories/create',
 };
 export function getParam(param) {
 

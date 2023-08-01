@@ -25,7 +25,8 @@ function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key i
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var RouteNames = {
-  'roles.create': 'roles/create'
+  'roles.create': 'roles/create',
+  'categories.create': 'products/categories/create'
 };
 function getParam(param) {
   var params = new URLSearchParams(location.search);
@@ -429,8 +430,23 @@ function getData(selectors) {
   var typeInput;
   selectors.forEach(function (item) {
     typeInput = type[item] === 'checkbox' ? ':checked' : '';
-    element = type[item] === 'textarea' ? 'textarea' : 'input';
-    data[item] = $("".concat(element, "[name=").concat(item, "] ").concat(typeInput)).val();
+    // element = type[item] === 'textarea' ? 'textarea' : 'input';
+    switch (type[item]) {
+      case 'textarea':
+        element = 'textarea';
+        break;
+      case 'select':
+        element = 'select';
+        break;
+      default:
+        element = 'input';
+        break;
+    }
+    if (type[item] !== 'file') {
+      data[item] = $("".concat(element, "[name=").concat(item, "]").concat(typeInput)).val();
+    } else {
+      data[item] = $("".concat(element, "[name=").concat(item, "]"))[0].files[0];
+    }
   });
   return data;
 }
