@@ -14,6 +14,10 @@ interface BaseRepositoryInterface
 
     public function find($id, $columns = ['*']);
 
+    public function findOrFail($id, $columns = ['*']);
+
+    public function findOr($id, Closure $callBack, $columns = ['*']);
+
     public function findByField($field, $value, $operator = null, $columns = ['*']);
 
     public function findWhere(array $where);
