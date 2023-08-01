@@ -25,5 +25,9 @@
     "/modules/User/css/app.css": "/modules/User/css/app.css",
     "/modules/user/js/user.js": "/modules/user/js/user.js",
     "/modules/user/js/role.js": "/modules/user/js/role.js",
-    "/modules/User/css/user.css": "/modules/User/css/user.css"
+    "/modules/User/css/user.css": "/modules/User/css/user.css",
+    "/modules/Product/js/app.js": "/modules/Product/js/app.js",
+    "/modules/Product/js/category.js": "/modules/Product/js/category.js",
+    "/modules/Product/css/category.css": "/modules/Product/css/category.css",
+    "/modules/Product/css/app.css": "/modules/Product/css/app.css"
 }
