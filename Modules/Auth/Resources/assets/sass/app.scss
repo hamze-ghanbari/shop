@@ -21,13 +21,14 @@
 .text-field-box{
     border: 1px solid setColor(gray, 'shade-3');
     border-radius: 8px;
-    padding: 12px !important;
+    padding: 0 0 0 12px !important;
 }
 
 .text-field{
     border: 0;
     outline: none;
     caret-color: setColor(green);
+    padding: 0;
 }
 
 .login-btn{

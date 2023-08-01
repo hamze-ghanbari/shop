@@ -2124,19 +2124,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./Modules/Banner/Resources/assets/sass/app.scss":
-/*!*******************************************************!*\
-  !*** ./Modules/Banner/Resources/assets/sass/app.scss ***!
-  \*******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
-
-
-/***/ }),
-
 /***/ "./Modules/User/Resources/assets/sass/app.scss":
 /*!*****************************************************!*\
   !*** ./Modules/User/Resources/assets/sass/app.scss ***!
@@ -2154,6 +2141,32 @@ __webpack_require__.r(__webpack_exports__);
 /*!******************************************************!*\
   !*** ./Modules/User/Resources/assets/sass/user.scss ***!
   \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./Modules/Product/Resources/assets/sass/app.scss":
+/*!********************************************************!*\
+  !*** ./Modules/Product/Resources/assets/sass/app.scss ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./Modules/Product/Resources/assets/sass/category.scss":
+/*!*************************************************************!*\
+  !*** ./Modules/Product/Resources/assets/sass/category.scss ***!
+  \*************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2549,9 +2562,10 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 			"styles/css/classes/_color_classes": 0,
 /******/ 			"styles/css/style": 0,
 /******/ 			"styles/css/app": 0,
+/******/ 			"modules/Product/css/category": 0,
+/******/ 			"modules/Product/css/app": 0,
 /******/ 			"modules/User/css/user": 0,
 /******/ 			"modules/User/css/app": 0,
-/******/ 			"modules/Banner/css/app": 0,
 /******/ 			"modules/auth/css/app": 0
 /******/ 		};
 /******/ 		
@@ -2602,16 +2616,17 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["styles/css/classes/_typography_classes","styles/css/classes/_button_classes","styles/css/classes/_color_classes","styles/css/style","styles/css/app","modules/User/css/user","modules/User/css/app","modules/Banner/css/app","modules/auth/css/app"], () => (__webpack_require__("./resources/js/app.js")))
-/******/ 	__webpack_require__.O(undefined, ["styles/css/classes/_typography_classes","styles/css/classes/_button_classes","styles/css/classes/_color_classes","styles/css/style","styles/css/app","modules/User/css/user","modules/User/css/app","modules/Banner/css/app","modules/auth/css/app"], () => (__webpack_require__("./resources/sass/app.scss")))
-/******/ 	__webpack_require__.O(undefined, ["styles/css/classes/_typography_classes","styles/css/classes/_button_classes","styles/css/classes/_color_classes","styles/css/style","styles/css/app","modules/User/css/user","modules/User/css/app","modules/Banner/css/app","modules/auth/css/app"], () => (__webpack_require__("./resources/sass/styles/style.scss")))
-/******/ 	__webpack_require__.O(undefined, ["styles/css/classes/_typography_classes","styles/css/classes/_button_classes","styles/css/classes/_color_classes","styles/css/style","styles/css/app","modules/User/css/user","modules/User/css/app","modules/Banner/css/app","modules/auth/css/app"], () => (__webpack_require__("./resources/sass/classes/_color_classes.scss")))
-/******/ 	__webpack_require__.O(undefined, ["styles/css/classes/_typography_classes","styles/css/classes/_button_classes","styles/css/classes/_color_classes","styles/css/style","styles/css/app","modules/User/css/user","modules/User/css/app","modules/Banner/css/app","modules/auth/css/app"], () => (__webpack_require__("./resources/sass/classes/_button_classes.scss")))
-/******/ 	__webpack_require__.O(undefined, ["styles/css/classes/_typography_classes","styles/css/classes/_button_classes","styles/css/classes/_color_classes","styles/css/style","styles/css/app","modules/User/css/user","modules/User/css/app","modules/Banner/css/app","modules/auth/css/app"], () => (__webpack_require__("./resources/sass/classes/_typography_classes.scss")))
-/******/ 	__webpack_require__.O(undefined, ["styles/css/classes/_typography_classes","styles/css/classes/_button_classes","styles/css/classes/_color_classes","styles/css/style","styles/css/app","modules/User/css/user","modules/User/css/app","modules/Banner/css/app","modules/auth/css/app"], () => (__webpack_require__("./Modules/Auth/Resources/assets/sass/app.scss")))
-/******/ 	__webpack_require__.O(undefined, ["styles/css/classes/_typography_classes","styles/css/classes/_button_classes","styles/css/classes/_color_classes","styles/css/style","styles/css/app","modules/User/css/user","modules/User/css/app","modules/Banner/css/app","modules/auth/css/app"], () => (__webpack_require__("./Modules/Banner/Resources/assets/sass/app.scss")))
-/******/ 	__webpack_require__.O(undefined, ["styles/css/classes/_typography_classes","styles/css/classes/_button_classes","styles/css/classes/_color_classes","styles/css/style","styles/css/app","modules/User/css/user","modules/User/css/app","modules/Banner/css/app","modules/auth/css/app"], () => (__webpack_require__("./Modules/User/Resources/assets/sass/app.scss")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["styles/css/classes/_typography_classes","styles/css/classes/_button_classes","styles/css/classes/_color_classes","styles/css/style","styles/css/app","modules/User/css/user","modules/User/css/app","modules/Banner/css/app","modules/auth/css/app"], () => (__webpack_require__("./Modules/User/Resources/assets/sass/user.scss")))
+/******/ 	__webpack_require__.O(undefined, ["styles/css/classes/_typography_classes","styles/css/classes/_button_classes","styles/css/classes/_color_classes","styles/css/style","styles/css/app","modules/Product/css/category","modules/Product/css/app","modules/User/css/user","modules/User/css/app","modules/auth/css/app"], () => (__webpack_require__("./resources/js/app.js")))
+/******/ 	__webpack_require__.O(undefined, ["styles/css/classes/_typography_classes","styles/css/classes/_button_classes","styles/css/classes/_color_classes","styles/css/style","styles/css/app","modules/Product/css/category","modules/Product/css/app","modules/User/css/user","modules/User/css/app","modules/auth/css/app"], () => (__webpack_require__("./resources/sass/app.scss")))
+/******/ 	__webpack_require__.O(undefined, ["styles/css/classes/_typography_classes","styles/css/classes/_button_classes","styles/css/classes/_color_classes","styles/css/style","styles/css/app","modules/Product/css/category","modules/Product/css/app","modules/User/css/user","modules/User/css/app","modules/auth/css/app"], () => (__webpack_require__("./resources/sass/styles/style.scss")))
+/******/ 	__webpack_require__.O(undefined, ["styles/css/classes/_typography_classes","styles/css/classes/_button_classes","styles/css/classes/_color_classes","styles/css/style","styles/css/app","modules/Product/css/category","modules/Product/css/app","modules/User/css/user","modules/User/css/app","modules/auth/css/app"], () => (__webpack_require__("./resources/sass/classes/_color_classes.scss")))
+/******/ 	__webpack_require__.O(undefined, ["styles/css/classes/_typography_classes","styles/css/classes/_button_classes","styles/css/classes/_color_classes","styles/css/style","styles/css/app","modules/Product/css/category","modules/Product/css/app","modules/User/css/user","modules/User/css/app","modules/auth/css/app"], () => (__webpack_require__("./resources/sass/classes/_button_classes.scss")))
+/******/ 	__webpack_require__.O(undefined, ["styles/css/classes/_typography_classes","styles/css/classes/_button_classes","styles/css/classes/_color_classes","styles/css/style","styles/css/app","modules/Product/css/category","modules/Product/css/app","modules/User/css/user","modules/User/css/app","modules/auth/css/app"], () => (__webpack_require__("./resources/sass/classes/_typography_classes.scss")))
+/******/ 	__webpack_require__.O(undefined, ["styles/css/classes/_typography_classes","styles/css/classes/_button_classes","styles/css/classes/_color_classes","styles/css/style","styles/css/app","modules/Product/css/category","modules/Product/css/app","modules/User/css/user","modules/User/css/app","modules/auth/css/app"], () => (__webpack_require__("./Modules/Auth/Resources/assets/sass/app.scss")))
+/******/ 	__webpack_require__.O(undefined, ["styles/css/classes/_typography_classes","styles/css/classes/_button_classes","styles/css/classes/_color_classes","styles/css/style","styles/css/app","modules/Product/css/category","modules/Product/css/app","modules/User/css/user","modules/User/css/app","modules/auth/css/app"], () => (__webpack_require__("./Modules/User/Resources/assets/sass/app.scss")))
+/******/ 	__webpack_require__.O(undefined, ["styles/css/classes/_typography_classes","styles/css/classes/_button_classes","styles/css/classes/_color_classes","styles/css/style","styles/css/app","modules/Product/css/category","modules/Product/css/app","modules/User/css/user","modules/User/css/app","modules/auth/css/app"], () => (__webpack_require__("./Modules/User/Resources/assets/sass/user.scss")))
+/******/ 	__webpack_require__.O(undefined, ["styles/css/classes/_typography_classes","styles/css/classes/_button_classes","styles/css/classes/_color_classes","styles/css/style","styles/css/app","modules/Product/css/category","modules/Product/css/app","modules/User/css/user","modules/User/css/app","modules/auth/css/app"], () => (__webpack_require__("./Modules/Product/Resources/assets/sass/app.scss")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["styles/css/classes/_typography_classes","styles/css/classes/_button_classes","styles/css/classes/_color_classes","styles/css/style","styles/css/app","modules/Product/css/category","modules/Product/css/app","modules/User/css/user","modules/User/css/app","modules/auth/css/app"], () => (__webpack_require__("./Modules/Product/Resources/assets/sass/category.scss")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

@@ -1,31 +1,12 @@
 @use '../../../../../resources/sass/abstracts/colors' as *;
 
-.filter-box {
-    min-width: 80%;
-    min-height: 25%;
-    height: 25%;
-    .search-box {
-        border: 1px solid setColor(light, 'shade-2');
-        border-radius: 30px;
-        height: 50px;
-        input {
-            border: 0;
-            outline: none;
-        }
-    }
-}
+
 
 //.plus-button {
 //    width: 35px;
 //    height: 35px;
 //}
 
-.text-field {
-    border: 1px solid setColor(gray, 'shade-1');
-    border-radius: 8px;
-    padding: 12px !important;
-    outline: none !important;
-}
 
 
 
