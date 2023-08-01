@@ -4,6 +4,7 @@ namespace App\Repository\Eloquent;
 
 use App\Repository\Contracts\BaseRepositoryInterface;
 use Closure;
+use Illuminate\Support\Facades\DB;
 
 abstract class BaseRepository implements BaseRepositoryInterface
 {
@@ -11,7 +12,7 @@ abstract class BaseRepository implements BaseRepositoryInterface
 
     public function __construct()
     {
-        $this->model = new $this->model();
+        $this->model = app($this->model());
     }
 
     abstract public function model();
@@ -41,10 +42,12 @@ abstract class BaseRepository implements BaseRepositoryInterface
         return $this->model->where($field, $operator, $value)->get($columns);
     }
 
-    public function findWhere(array $where, $columns = ['*'])
+    public function findWhere(array $where)
     {
-        return $this->model->where($where)->get($columns);
+        return $this->model->where($where);
     }
+
+
 
     public function findWhereIn($field, array $values, $columns = ['*'])
     {
@@ -59,6 +62,10 @@ abstract class BaseRepository implements BaseRepositoryInterface
     public function findWhereBetween($field, array $values, $columns = ['*'])
     {
         return $this->model->whereBetween($field, $values)->get($columns);
+    }
+
+    public function when($value, callable $callback){
+        return $this->model->when($value, $callback);
     }
 
     public function create(array $attributes)
@@ -91,9 +98,9 @@ abstract class BaseRepository implements BaseRepositoryInterface
         return $this->model->with($relations);
     }
 
-    public function has(string $relation)
+    public function has(string $relation): bool
     {
-        return $this->model->has($relation)->get();
+        return $this->model->has($relation);
     }
 
     public function whereHas(string $relation, closure $closure)

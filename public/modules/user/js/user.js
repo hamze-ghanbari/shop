@@ -520,9 +520,10 @@ $(document).ready(function () {
   $("#nationalCode").on('shown.bs.modal', function () {
     $("input[name='national_code']").focus();
   });
-  $("#birthDate").on('shown.bs.modal', function () {
-    $("input[name='birth_date']").focus();
-  });
+  // $("#birthDate").on('shown.bs.modal', function () {
+  //     $("input[name='birth_date']").focus();
+  // });
+
   $.ajaxSetup({
     headers: {
       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -545,7 +546,6 @@ $(document).ready(function () {
         var hasError = _ref.hasError,
           message = _ref.message,
           url = _ref.url;
-        console.log(hasError, message, url);
         hasError ? toastError(message) : toastSuccess(message);
         hideLoading();
         window.location.href = url;
@@ -556,8 +556,9 @@ $(document).ready(function () {
       }
     });
   });
-  $('.delete-user').click(function (event) {
+  $('.delete-user').on('click', function (event) {
     event.preventDefault();
+    alert('hi');
     var element = $(this);
     element.html("<i class=\"fa-solid fa-spinner loading\"></i>");
     $.ajax({

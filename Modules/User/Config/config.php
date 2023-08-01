@@ -1,5 +1,6 @@
 <?php
 
 return [
-    'name' => 'User'
+    'name' => 'User',
+    'enable_cache' => true
 ];

@@ -14,26 +14,52 @@ use Modules\Auth\Enums\ActivationEnum;
 use Modules\Auth\Enums\StatusEnum;
 use Modules\Auth\Enums\TypeEnum;
 use Modules\Auth\Enums\UsedEnum;
+use Modules\Auth\Repository\OtpRepositoryInterface;
 use Modules\User\Entities\User;
+use Modules\User\Repository\UserRepositoryInterface;
 
 class AuthService
 {
+    private TypeEnum $type;
+    private $newUser = null;
+    private User|null $user;
+
+    public function __construct(
+        public OtpRepositoryInterface  $otpRepository,
+        public UserRepositoryInterface $userRepository
+    )
+    {
+    }
+
+
+    private function getUserByEmail($email)
+    {
+        $this->type = TypeEnum::Email;
+        $this->user = $this->userRepository->getUserByField('email', $email);
+        if (empty($this->user)) {
+            $this->newUser['email'] = $email;
+        }
+    }
+
+    private function getUserByMobile($mobile)
+    {
+        $this->type = TypeEnum::Mobile;
+        $this->user = $this->userRepository->getUserByField('mobile', $mobile);
+        if (empty($this->user)) {
+            $this->newUser['mobile'] = $mobile;
+        }
+    }
 
     public function checkUserName($userName)
     {
-        $newUser = null;
         if (preg_match('/^' . config('constants.email_regex') . '$/', $userName)) {
-            $type = TypeEnum::Email;
-            $user = User::where('email', $userName)->withTrashed()->first();
-            if (empty($user)) {
-                $newUser['email'] = $userName;
-            }
+
+            $this->getUserByEmail($userName);
+
         } elseif (preg_match('/^' . config('constants.mobile_regex') . '$/', $userName)) {
-            $type = TypeEnum::Mobile;
-            $user = User::where('mobile', $userName)->withTrashed()->first();
-            if (empty($user)) {
-                $newUser['mobile'] = $userName;
-            }
+
+            $this->getUserByMobile($userName);
+
         } else {
             $errorMessage = config('auth_module.messages.format_error');
             return result(
@@ -43,23 +69,23 @@ class AuthService
         }
 
         return [
-            'type' => $type,
-            'user' => $user,
-            'newUser' => $newUser
+            'type' => $this->type,
+            'user' => $this->user,
+            'newUser' => $this->newUser
         ];
     }
 
     public function createUser($newUser): User
     {
         $newUser['activation'] = ActivationEnum::UserActive->value;
-        return User::create($newUser);
+        return $this->userRepository->create($newUser);
     }
 
     public function createOtp($userId, $userName, $type): Otp
     {
         $otpCode = randomNumber();
         $token = Str::random(60);
-        return Otp::create([
+        return $this->otpRepository->create([
             'token' => $token,
             'user_id' => $userId,
             'otp_code' => $otpCode,
@@ -70,50 +96,65 @@ class AuthService
 
     public function getOtp($token): mixed
     {
-        return Otp::where([
+        return $this->otpRepository->findWhere([
             'token' => $token,
             'used' => UsedEnum::NotUsed->value,
             'status' => StatusEnum::Active->value,
-        ])->where('created_at', '>=', Carbon::now()->subMinutes(config('auth_module.time'))->toDateTimeString())->first();
+            ['created_at', '>=', Carbon::now()->subMinutes(config('auth_module.time'))->toDateTimeString()]
+        ])->first();
+
     }
 
-    public function getOtpWithUser($token){
-       $otp = Otp::with('user')->where('token', $token)->first();
-        if (empty($otp) || Carbon::now()->toDateTimeString() < (new Carbon($otp->created_at))->addMinutes(config('auth_module.time'))->toDateTimeString()) {
-            return redirect()->back();
-        }
-        return $otp;
+    public function getOtpWithUser($token)
+    {
+        return $this->otpRepository->with('user')->where('token', $token)->first();
     }
 
-    public function updateOtpCode($otp){
-        $otp->update(['used' => UsedEnum::Used->value, 'status' => StatusEnum::InActive->value]);
-        Otp::where(['user_id' => $otp->user_id, 'status' => StatusEnum::Active->value])->update(['status' => StatusEnum::InActive->value]);
+    public function updateOtpCode($otp)
+    {
+        // update current otp code
+        $this->otpRepository->update([
+            'used' => UsedEnum::Used->value,
+            'status' => StatusEnum::InActive->value
+        ], $otp->id);
+
+        // update other otp code
+        $this->otpRepository
+            ->findWhere(['user_id' => $otp->user_id, 'status' => StatusEnum::Active->value])
+            ->update(['status' => StatusEnum::InActive->value]);
     }
 
-    public function userVerify($user, $verifyField){
-        $user->update([$verifyField => Carbon::now()]);
+    public function userVerify($userId, $verifyField)
+    {
+        $this->userRepository->update([
+            $verifyField => Carbon::now()
+        ], $userId);
     }
 
-    public function getUserById($userId){
-        return User::find($userId);
+    public function getUserById($userId)
+    {
+        return $this->userRepository->find($userId);
     }
 
-    public function userLogin($user, $request){
+    public function userLogin($user, $request)
+    {
         Auth::login($user);
         $request->session()->regenerate();
     }
 
-    public function logOut($request){
+    public function logOut($request)
+    {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
     }
 
-    public function errorRecord($url, $input){
+    public function errorRecord($url, $input)
+    {
         $errorMessage = config('auth_module.messages.error_record');
         return result(
             Response::postError($url, $errorMessage),
-            back()->withErrors([$input => $errorMessage])
+            redirect()->back()->withErrors([$input => $errorMessage])
         );
     }
 

@@ -1,5 +1,5 @@
 import {getRouteByName} from "../../../../../public/js/modules/route";
-import {checkPattern, getData, isNumber, maxLength, nationalCode} from "../../../../../public/js/modules/validation";
+import {  getData,  maxLength, nationalCode} from "../../../../../public/js/modules/validation";
 
 $(document).ready(function () {
     let fullNameModal = new bootstrap.Modal($('#fullName'), {
@@ -19,9 +19,9 @@ $(document).ready(function () {
     $("#nationalCode").on('shown.bs.modal', function () {
         $("input[name='national_code']").focus();
     });
-    $("#birthDate").on('shown.bs.modal', function () {
-        $("input[name='birth_date']").focus();
-    });
+    // $("#birthDate").on('shown.bs.modal', function () {
+    //     $("input[name='birth_date']").focus();
+    // });
 
     $.ajaxSetup({
         headers: {
@@ -45,7 +45,6 @@ $(document).ready(function () {
                 roles: values
             },
             success({hasError, message, url}) {
-                console.log(hasError, message, url);
                 hasError ? toastError(message) : toastSuccess(message);
                 hideLoading();
                 window.location.href = url;
@@ -57,8 +56,9 @@ $(document).ready(function () {
         })
     });
 
-    $('.delete-user').click(function (event) {
+    $('.delete-user').on('click', function (event) {
         event.preventDefault();
+        alert('hi');
         let element = $(this);
         element.html(`<i class="fa-solid fa-spinner loading"></i>`);
         $.ajax({

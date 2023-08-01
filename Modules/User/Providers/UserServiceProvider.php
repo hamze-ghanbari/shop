@@ -4,7 +4,10 @@ namespace Modules\User\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Eloquent\Factory;
+use Modules\User\Repository\RoleRepository;
+use Modules\User\Repository\RoleRepositoryInterface;
+use Modules\User\Repository\UserRepository;
+use Modules\User\Repository\UserRepositoryInterface;
 use Modules\User\View\Components\PermissionRoleModal;
 
 class UserServiceProvider extends ServiceProvider
@@ -18,6 +21,11 @@ class UserServiceProvider extends ServiceProvider
      * @var string $moduleNameLower
      */
     protected $moduleNameLower = 'user_module';
+
+    public $bindings = [
+        UserRepositoryInterface::class => UserRepository::class,
+        RoleRepositoryInterface::class => RoleRepository::class
+    ];
 
     /**
      * Boot the application events.

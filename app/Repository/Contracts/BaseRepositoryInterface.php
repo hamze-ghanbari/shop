@@ -16,7 +16,7 @@ interface BaseRepositoryInterface
 
     public function findByField($field, $value, $operator = null, $columns = ['*']);
 
-    public function findWhere(array $where, $columns = ['*']);
+    public function findWhere(array $where);
 
     public function findWhereIn($field, array $values, $columns = ['*']);
 

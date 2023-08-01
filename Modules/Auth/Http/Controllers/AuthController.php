@@ -102,23 +102,27 @@ class AuthController extends Controller
             $this->authService->updateOtpCode($otp);
 
             $user = $this->authService->getUserById($otp->user_id);
+
             if ($otp->type == TypeEnum::Email->value && empty($user->email_verified_at)) {
-                $this->authService->userVerify($user, 'email_verified_at');
+                $this->authService->userVerify($user->id, 'email_verified_at');
             } elseif ($otp->type == TypeEnum::Mobile->value && empty($user->mobile_verified_at)) {
-                $this->authService->userVerify($user, 'mobile_verified_at');
+                $this->authService->userVerify($user->id, 'mobile_verified_at');
             }
+
+            $this->authService->userLogin($user, $request);
+
+            result(
+                Response::postSuccess(session()->get('url.intended') ?? route('users.profile', ['user' => $user->id])),
+                redirect()->intended("profile/$user->id")
+            );
+
             DB::commit();
         } catch (\Exception) {
             DB::rollBack();
-            $this->authService->errorRecord(route('auth.show-confirm-form'), config('auth_module.inputs.confirm_code'));
+            $this->authService->errorRecord(route('auth.show-confirm-form', $token), config('auth_module.inputs.confirm_code'));
         }
 
-        $this->authService->userLogin($user, $request);
 
-        return result(
-            Response::postSuccess(session()->get('url.intended') ?? route('users.profile', ['user' => $user->id])),
-            redirect()->intended("profile/$user->id")
-        );
     }
 
 
@@ -126,6 +130,10 @@ class AuthController extends Controller
     {
 
         $otp = $this->authService->getOtpWithUser($token);
+
+        if (!isset($otp) || Carbon::now()->toDateTimeString() < (new Carbon($otp->created_at))->addMinutes(config('auth_module.time'))->toDateTimeString()) {
+            return redirect()->back();
+        }
 
         $otpData = $this->authService->createOtp($otp->user_id, $otp->login_id, $otp->type);
 

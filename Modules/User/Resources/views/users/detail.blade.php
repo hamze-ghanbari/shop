@@ -5,7 +5,6 @@
 @section('style')
     <link rel="stylesheet" href="{{ asset('modules/user/css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('modules/user/css/user.css') }}">
-    <link rel="stylesheet" href="{{ asset('date-picker/persian-datepicker.min.css') }}">
 @endsection
 
 @section('content')
@@ -31,7 +30,7 @@
                             @endphp
                         <x-edit-modal  target="fullName"
                                       formBody="user_module::users.components.full-name-form"
-                                     :$data />
+                                       :$data ></x-edit-modal>
                     </div>
                     <span class="d-block small-copy-medium full-name">{{$user->full_name}}</span>
                 </div>
@@ -54,7 +53,7 @@
                         @endphp
                         <x-edit-modal  target="nationalCode"
                                        formBody="user_module::users.components.national-code-form"
-                                       :$data />
+                                       :$data ></x-edit-modal>
                     </div>
                     <span class="d-block small-copy-medium national-code">{{$user->national_code ?? '-----'}}</span>
                 </div>
@@ -120,7 +119,7 @@
                         @endphp
                         <x-edit-modal  target="birthDate"
                                        formBody="user_module::users.components.birth-date-form"
-                                       :$data />
+                                       :$data ></x-edit-modal>
                     </div>
                     <span class="d-block small-copy-medium birth-date">{{$user->birth_date ?? '-----'}}</span>
                 </div>
@@ -131,8 +130,6 @@
 @endsection
 
 @section('script')
-    <script src="{{asset('date-picker/persian-date.min.js')}}"></script>
-    <script src="{{asset('date-picker/persian-datepicker.min.js')}}"></script>
     <script src="{{ asset('modules/user/js/app.js') }}"></script>
     <script src="{{ asset('modules/user/js/user.js') }}"></script>
 @endsection

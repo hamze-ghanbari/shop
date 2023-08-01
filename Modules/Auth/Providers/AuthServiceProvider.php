@@ -4,6 +4,8 @@ namespace Modules\Auth\Providers;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
+use Modules\Auth\Repository\OtpRepository;
+use Modules\Auth\Repository\OtpRepositoryInterface;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -16,6 +18,10 @@ class AuthServiceProvider extends ServiceProvider
      * @var string $moduleNameLower
      */
     protected $moduleNameLower = 'auth_module';
+
+    public $bindings = [
+        OtpRepositoryInterface::class => OtpRepository::class
+    ];
 
     /**
      * Boot the application events.
