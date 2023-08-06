@@ -103,10 +103,17 @@
                         <div class="text-field  col-12 flex-between">
                             <select class="border-0 col-11 black__shade-1 @error('parent_id') border-red @enderror"
                                     name="parent_id">
-                                @foreach ($categories as $category)
-                                    <option value="{{$category->id }}"
-                                            @if (old('parent_id') == $category->id) selected @endif>{{ $category->name }}</option>
-                                @endforeach
+                                <option value="">هیچکدام</option>
+                                @if(isset($category->id))
+                                    @foreach ($categories as $cate)
+                                        <option value="{{old('parent_id', $cate->id)}}"
+                                                @if ($cate->id == $category->parent_id) selected @endif>{{ $cate->name }}</option>
+                                    @endforeach
+                                @else
+                                    @foreach ($categories as $cate)
+                                        <option value="{{old('parent_id', $cate->id)}}">{{ $cate->name }}</option>
+                                    @endforeach
+                                @endif
                             </select>
                             <i></i>
                         </div>
