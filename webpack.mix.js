@@ -7,7 +7,7 @@ mix.mergeManifest();
 /*----------------------------------------*/
 
 mix
-    .js('resources/js/app.js', 'public/js')
+    // .js('resources/js/app.js', 'public/js')
     .js('resources/js/public.js', 'public/js')
     // .js('resources/js/helpers/Validation.js', 'public/js/validation')
     .js('Modules/Auth/Resources/assets/js/app.js', 'public/modules/auth/js')
