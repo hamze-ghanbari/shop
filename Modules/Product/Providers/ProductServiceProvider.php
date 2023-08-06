@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 use Modules\Product\Entities\ProductCategory;
+use Modules\Product\Repository\BrandRepository;
+use Modules\Product\Repository\BrandRepositoryInterface;
 use Modules\Product\Repository\CategoryRepository;
 use Modules\Product\Repository\CategoryRepositoryInterface;
 
@@ -22,7 +24,8 @@ class ProductServiceProvider extends ServiceProvider
     protected $moduleNameLower = 'product';
 
     public $singletons = [
-        CategoryRepositoryInterface::class => CategoryRepository::class
+        CategoryRepositoryInterface::class => CategoryRepository::class,
+        BrandRepositoryInterface::class => BrandRepository::class
     ];
 
     public function boot()

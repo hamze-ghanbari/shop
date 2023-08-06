@@ -47,6 +47,10 @@ class SideBarComposer
                         'route' => 'categories.index'
                     ],
                     [
+                        'name' => ' برندها',
+                        'route' => 'brands.index'
+                    ],
+                    [
                         'name' => ' پرسش کاربران',
                         'route' => 'users.index'
                     ],

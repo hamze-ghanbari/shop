@@ -29,5 +29,6 @@
     "/modules/Product/js/app.js": "/modules/Product/js/app.js",
     "/modules/Product/js/category.js": "/modules/Product/js/category.js",
     "/modules/Product/css/category.css": "/modules/Product/css/category.css",
-    "/modules/Product/css/app.css": "/modules/Product/css/app.css"
+    "/modules/Product/css/app.css": "/modules/Product/css/app.css",
+    "/modules/Product/js/brand.js": "/modules/Product/js/brand.js"
 }

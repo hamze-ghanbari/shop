@@ -4,7 +4,6 @@
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('modules/product/css/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('modules/product/css/category.css') }}">
 @endsection
 
 @section('content')

@@ -10,7 +10,6 @@
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('modules/product/css/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('modules/product/css/category.css') }}">
 @endsection
 
 @section('content')
@@ -86,7 +85,6 @@
                     <div class="d-flex flex-wrap col-6 ms-1">
                         <label class="w-100 my-2 caption-light">تصویر دسته بندی</label>
                         <div class="text-field  col-12 flex-between">
-                            <img src="" id="ddddd"/>
                             <input type="file" name="image" id="ImageBrowse"
                                    value="{{old('image', $category->image ?? '')}}"
                                    class="border-0 col-11 black__shade-1 @error('image') border-red @enderror"/>

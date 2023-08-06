@@ -54,11 +54,11 @@ class CategoryRequest extends FormRequest
         return true;
     }
 
-    protected function prepareForValidation(): void
-    {
-        $this->merge([
-//            'slug' => Str::slug($this->name),
-//            'image' => base64_decode($this->image)
-        ]);
-    }
+//    protected function prepareForValidation(): void
+//    {
+//        $this->merge([
+////            'slug' => Str::slug($this->name),
+////            'image' => base64_decode($this->image)
+//        ]);
+//    }
 }

@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,10 +12,11 @@ return new class extends Migration
     {
         Schema::create('brands', function (Blueprint $table) {
             $table->id();
+            $table->string('name', 50);
             $table->string('persian_name', 50);
-            $table->string('original_name', 50);
-            $table->string('slug', 50)->unique();
-            $table->text('logo');
+            $table->text('description');
+            $table->string('slug')->unique()->nullable();
+            $table->text('image')->nullable();
             $table->boolean('status')->default(false);
             $table->timestamps();
             $table->softDeletes();

@@ -17,6 +17,10 @@ abstract class BaseRepository implements BaseRepositoryInterface
 
     abstract public function model();
 
+    protected function getModel(){
+        return $this->model;
+    }
+
     public function all($columns = ['*'])
     {
         return $this->model->all($columns);
