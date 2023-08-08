@@ -113,8 +113,8 @@
                                     @endforeach
                                 @endif
                             </select>
-                            <i></i>
                         </div>
+                            <i></i>
                         <span class="red__shade-3 caption-light w-100" id="error-parent-id">
                      @error('parent_id')
                             {{$message}}

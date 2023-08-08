@@ -7,6 +7,17 @@ use Intervention\Image\Facades\Image;
 
 class ImageService extends ImageToolsService
 {
+    public function base64Save($image)
+    {
+        $imageData = $this->setBase64NameImage($image);
+        $this->setImageFormat($imageData['extension']);
+        $this->setImageName($imageData['imageName']);
+        $this->provider();
+        $result = Image::make($image)->save($this->getImageAddress(), null, $this->getImageFormat());
+
+        return $result ? $this->getImageAddress() : false;
+    }
+
     public function save($image)
     {
         $this->setImage($image);

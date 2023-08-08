@@ -2,6 +2,10 @@
 
 namespace App\Http\Services\Image;
 
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
+use JetBrains\PhpStorm\ArrayShape;
+
 class ImageToolsService
 {
 
@@ -87,7 +91,8 @@ class ImageToolsService
     protected function checkDirectory($imageDirectory)
     {
         if (!file_exists($imageDirectory)) {
-            mkdir($imageDirectory, 0777, true);
+            File::makeDirectory($imageDirectory, 0777, true, true);
+//            mkdir($imageDirectory, 0777, true);
         }
     }
 
@@ -98,7 +103,7 @@ class ImageToolsService
 
     protected function provider()
     {
-        $this->getImageDirectory() ?? $this->setImageName(date('Y') . DIRECTORY_SEPARATOR . date('m') . DIRECTORY_SEPARATOR . date('d'));
+        $this->getImageDirectory() ?? $this->setImageDirectory(date('Y') . DIRECTORY_SEPARATOR . date('m') . DIRECTORY_SEPARATOR . date('d'));
         $this->getImageName() ?? $this->setImageName(time());
         $this->getImageFormat() ?? $this->setImageFormat($this->image->extension());
 
@@ -112,5 +117,18 @@ class ImageToolsService
         $this->checkDirectory($this->getFinalImageDirectory());
     }
 
+    public function setBase64NameImage($image): array
+    {
+        $extension = explode(';', explode('/', ($image))[1])[0];
+        $search = "data:image/$extension;base64,";
+        $image = str_replace($search, '', $image);
+        $image = str_replace(' ', '+', $image);
+        $imageName = Str::random(20);
+        return [
+            'image' => $image,
+            'imageName' => $imageName,
+            'extension' => $extension
+        ];
+    }
 
 }

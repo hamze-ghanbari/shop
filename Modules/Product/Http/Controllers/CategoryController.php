@@ -6,6 +6,7 @@ use App\Http\Services\Image\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Storage;
 use Modules\Product\Entities\ProductCategory;
 use Modules\Product\Http\Requests\CategoryRequest;
 use Modules\Product\Http\Services\CategoryService;
@@ -35,20 +36,13 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request, ImageService $imageService)
     {
 
-//        $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'category_product');
-//        $img = $imageService->createIndexAndSave($request->input('image'));
-//        if ($img == false) {
-//            $message = 'خطا در آپلود تصویر';
-//            return result(
-//                Response::postError(route('categories.create'), $message),
-//                redirect()->route('categories.create')->withErrors([
-//                    'image' => $message,
-//                ])->onlyInput('image')
-//            );
-//        }
-        $imageUrl = $this->categoryService->uploadImage($request->input('image'));
+        $imageAddress = $this->categoryService->uploadImage($imageService, $request->input('image'));
 
-        $this->categoryService->createCategory($request,  $imageUrl);
+        if(!$imageAddress){
+           return Response::postSuccess(route('categories.create'), 'خطا در آپلود تصویر');
+        }
+
+        $this->categoryService->createCategory($request,  $imageAddress);
 
         $message = 'ثبت دسته بندی با موفقیت انجام شد';
         return result(
@@ -67,11 +61,15 @@ class CategoryController extends Controller
     }
 
 
-    public function update(CategoryRequest $request, $category)
+    public function update(CategoryRequest $request, ImageService $imageService, $category)
     {
-        $imageUrl = $this->categoryService->uploadImage($request->input('image'));
+        $imageAddress = $this->categoryService->uploadImage($imageService, $request->input('image'));
 
-        $category = $this->categoryService->updateCategory($request, $category->id, $imageUrl);
+        if(!$imageAddress){
+            return Response::postSuccess(route('categories.create'), 'خطا در آپلود تصویر');
+        }
+
+        $category = $this->categoryService->updateCategory($request, $category->id, $imageAddress);
 
         if ($category) {
             return result(
@@ -103,11 +101,13 @@ class CategoryController extends Controller
         }
     }
 
-    public function destroy($category)
+    public function destroy(ProductCategory $category)
     {
         $categoryDelete = $this->categoryService->deleteCategory($category->id);
 
         if ($categoryDelete) {
+            $this->categoryService->deleteCategoryImage($category->image);
+
             return result(
                 Response::postSuccess(route('categories.index'), 'حذف دسته بندی با موفقیت انجام شد'),
                 redirect()->route('categories.index')
@@ -119,4 +119,5 @@ class CategoryController extends Controller
             );
         }
     }
+
 }

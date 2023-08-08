@@ -65,7 +65,10 @@
                                 {{$category->slug}}
                             </td>
                             <td class="small-copy-light">
-                                <img class="rounded-1" src="{{asset($category->image)}}" alt="{{$category->name}}" width="80px" height="80px" />
+                                <a href="{{asset($category->image)}}">
+                                    <img class="rounded-1" src="{{asset($category->image)}}" alt="{{$category->name}}"
+                                         width="80px" height="80px"/>
+                                </a>
                             </td>
                             <td class="small-copy-light">
                                 {{$category->status}}
@@ -87,7 +90,8 @@
                                        class="action-icon gg bg-dark-blue__default white__default me-1 mb-2">
                                         <i class="fa-solid fa-edit"></i>
                                     </a>
-                                    <a href="{{route('categories.destroy', ['category' => $category->id])}}" id="{{$category->id}}"
+                                    <a href="{{route('categories.destroy', ['category' => $category->id])}}"
+                                       id="{{$category->id}}"
                                        class="action-icon delete-category bg-red__shade-3 white__default me-1 mb-2"
                                        data-bs-toggle="tooltip" data-bs-placement="right" title="حذف دسته بندی">
                                         <i class="fa-solid fa-trash"></i>

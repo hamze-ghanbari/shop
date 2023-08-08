@@ -34,9 +34,13 @@ class BrandController extends Controller
 
     public function store(BrandRequest $request, ImageService $imageService)
     {
-        $imageUrl = $this->brandService->uploadImage($request->input('image'));
+        $imageAddress = $this->brandService->uploadImage($imageService, $request->input('image'));
 
-        $this->brandService->createBrand($request,  $imageUrl);
+        if(!$imageAddress){
+            return Response::postSuccess(route('brands.create'), 'خطا در آپلود تصویر');
+        }
+
+        $this->brandService->createBrand($request, $imageAddress);
 
         $message = 'ثبت برند با موفقیت انجام شد';
         return result(
@@ -52,11 +56,15 @@ class BrandController extends Controller
     }
 
 
-    public function update(BrandRequest $request, Brand $brand)
+    public function update(BrandRequest $request, ImageService $imageService, Brand $brand)
     {
-        $imageUrl = $this->brandService->uploadImage($request->input('image'));
+        $imageAddress = $this->brandService->uploadImage($imageService, $request->input('image'));
 
-        $brand = $this->brandService->updateBrand($request, $brand->id, $imageUrl);
+        if(!$imageAddress){
+            return Response::postSuccess(route('brands.index'), 'خطا در آپلود تصویر');
+        }
+
+        $brand = $this->brandService->updateBrand($request, $brand->id, $imageAddress);
 
         if ($brand) {
             return result(
@@ -71,7 +79,8 @@ class BrandController extends Controller
         }
     }
 
-    public function changeStatus(Brand $brand, $status){
+    public function changeStatus(Brand $brand, $status)
+    {
         $statusNum = isset($status) && $status == 1 ? 0 : 1;
         $updated = $this->brandService->updateBrandStatus($brand, $status);
 
@@ -93,6 +102,8 @@ class BrandController extends Controller
         $brandDelete = $this->brandService->deleteBrand($brand->id);
 
         if ($brandDelete) {
+            $this->brandService->deleteBrandImage($brand->image);
+
             return result(
                 Response::postSuccess(route('brands.index'), 'حذف برند با موفقیت انجام شد'),
                 redirect()->route('brands.index')
