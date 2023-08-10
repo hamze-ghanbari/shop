@@ -101,12 +101,12 @@ class CategoryController extends Controller
         }
     }
 
-    public function destroy(ProductCategory $category)
+    public function destroy(ImageService $imageService, ProductCategory $category)
     {
         $categoryDelete = $this->categoryService->deleteCategory($category->id);
 
         if ($categoryDelete) {
-            $this->categoryService->deleteCategoryImage($category->image);
+            $imageService->deleteImage($category->image);
 
             return result(
                 Response::postSuccess(route('categories.index'), 'حذف دسته بندی با موفقیت انجام شد'),

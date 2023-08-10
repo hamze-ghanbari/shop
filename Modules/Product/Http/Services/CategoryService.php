@@ -54,17 +54,17 @@ class CategoryService
         return $this->categoryRepository->delete($id);
     }
 
-    public function deleteCategoryImage($image)
-    {
-        if (Storage::disk('public')->exists($image)) {
-            Storage::disk('public')->delete($image);
-        }
-
-        if (Storage::disk('public')->allFiles('uploads/category_product') === []) {
-            Storage::disk('public')->deleteDirectory('uploads/category_product');
-        }
-
-    }
+//    public function deleteCategoryImage($image)
+//    {
+//        if (Storage::disk('public')->exists($image)) {
+//            Storage::disk('public')->delete($image);
+//        }
+//
+//        if (Storage::disk('public')->allFiles('uploads/category_product') === []) {
+//            Storage::disk('public')->deleteDirectory('uploads/category_product');
+//        }
+//
+//    }
 
     public function uploadImage(ImageService $imageService, $image)
     {

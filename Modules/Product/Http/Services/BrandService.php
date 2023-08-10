@@ -54,17 +54,17 @@ class BrandService
         return $this->brandRepository->delete($id);
     }
 
-    public function deleteBrandImage($image)
-    {
-        if (Storage::disk('public')->exists($image)) {
-            Storage::disk('public')->delete($image);
-        }
-
-        if (Storage::disk('public')->allFiles('uploads/brands') === []) {
-            Storage::disk('public')->deleteDirectory('uploads/brands');
-        }
-
-    }
+//    public function deleteBrandImage($image)
+//    {
+//        if (Storage::disk('public')->exists($image)) {
+//            Storage::disk('public')->delete($image);
+//        }
+//
+//        if (Storage::disk('public')->allFiles('uploads/brands') === []) {
+//            Storage::disk('public')->deleteDirectory('uploads/brands');
+//        }
+//
+//    }
 
     public function uploadImage(ImageService $imageService, $image)
     {

@@ -14,7 +14,7 @@ class BrandController extends Controller
 {
 
     public function __construct(
-        public BrandService $brandService
+        public BrandService $brandService,
     )
     {
         $this->middleware('auth');
@@ -97,12 +97,12 @@ class BrandController extends Controller
         }
     }
 
-    public function destroy(Brand $brand)
+    public function destroy(ImageService $imageService, Brand $brand)
     {
         $brandDelete = $this->brandService->deleteBrand($brand->id);
 
         if ($brandDelete) {
-            $this->brandService->deleteBrandImage($brand->image);
+            $imageService->deleteImage($brand->image);
 
             return result(
                 Response::postSuccess(route('brands.index'), 'حذف برند با موفقیت انجام شد'),

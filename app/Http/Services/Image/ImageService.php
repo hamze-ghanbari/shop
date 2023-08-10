@@ -3,6 +3,7 @@
 namespace App\Http\Services\Image;
 
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 
 class ImageService extends ImageToolsService
@@ -83,6 +84,10 @@ class ImageService extends ImageToolsService
     {
         if (file_exists($imagePath)) {
             unlink($imagePath);
+            $dirName = dirname($imagePath);
+        if (File::allFiles($dirName) === []) {
+            File::deleteDirectory($dirName);
+        }
         }
     }
 
