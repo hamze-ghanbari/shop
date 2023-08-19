@@ -58,7 +58,6 @@ $(document).ready(function () {
 
     $('.delete-user').on('click', function (event) {
         event.preventDefault();
-        alert('hi');
         let element = $(this);
         element.html(`<i class="fa-solid fa-spinner loading"></i>`);
         $.ajax({

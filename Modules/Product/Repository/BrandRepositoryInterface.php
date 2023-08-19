@@ -6,5 +6,6 @@ use App\Repository\Contracts\BaseRepositoryInterface;
 
 interface BrandRepositoryInterface extends BaseRepositoryInterface
 {
+    public function getBrandWithTrashed($name);
 
 }

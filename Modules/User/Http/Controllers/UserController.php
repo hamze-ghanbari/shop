@@ -23,16 +23,6 @@ class UserController extends Controller
         return view('user_module::users.index', compact('users'));
     }
 
-    public function create()
-    {
-        return view('user_module::create');
-    }
-
-    public function store(Request $request)
-    {
-        //
-    }
-
     public function show(User $user)
     {
         $years = [];

@@ -2,6 +2,7 @@
 
 namespace App\Repository\Eloquent;
 
+use App\Models\User;
 use App\Repository\Contracts\BaseRepositoryInterface;
 use Closure;
 use Illuminate\Support\Facades\DB;
@@ -76,6 +77,10 @@ abstract class BaseRepository implements BaseRepositoryInterface
         return $this->model->whereBetween($field, $values)->get($columns);
     }
 
+    public function exists(array $where){
+       return $this->findWhere($where)->exists();
+    }
+
     public function when($value, callable $callback)
     {
         return $this->model->when($value, $callback);
@@ -111,7 +116,7 @@ abstract class BaseRepository implements BaseRepositoryInterface
         return $this->model->with($relations);
     }
 
-    public function has(string $relation): bool
+    public function has(string $relation)
     {
         return $this->model->has($relation);
     }

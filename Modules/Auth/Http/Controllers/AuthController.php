@@ -10,9 +10,11 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 use Modules\Auth\Entities\Otp;
+use Modules\Auth\Events\UserRegistered;
 use Modules\Auth\Http\Middleware\AuthCheck;
 use Modules\Auth\Http\Requests\OtpRequest;
 use Modules\Auth\Http\Services\AuthService;
+use Modules\User\Entities\User;
 
 class AuthController extends Controller
 {
@@ -44,7 +46,7 @@ class AuthController extends Controller
                     $errorMessage = config('auth_module.messages.block_account');
                     return result(
                         Response::postError(route('auth.show-otp-form'), $errorMessage),
-                        back()->withErrors([config('auth_module.inputs.user_name') => $errorMessage])
+                        back()->withErrors([config('auth_module.inputs.user_name') => $errorMessage])->withInput(['user_name'])
                     );
                 }
             };
@@ -56,7 +58,7 @@ class AuthController extends Controller
         }
 
         if ($data['type'] === TypeEnum::Email) {
-            $this->authService->sendEmail($otp->otp_code, $userName);
+            UserRegistered::dispatch($otp->otp_code, $userName);
         } elseif ($data['type'] === TypeEnum::Mobile) {
             // send sms
         }
@@ -78,7 +80,6 @@ class AuthController extends Controller
 
         }
     }
-
 
     public function confirm($token, OtpRequest $request)
     {
@@ -110,13 +111,12 @@ class AuthController extends Controller
             }
 
             $this->authService->userLogin($user, $request);
-
-            result(
-                Response::postSuccess(session()->get('url.intended') ?? route('users.profile', ['user' => $user->id])),
-                redirect()->intended("profile/$user->id")
-            );
-
+            $redirectUrl = session()->get('url.intended') ?? route('users.profile', ['user' => $user->id]);
             DB::commit();
+            return result(
+                Response::postSuccess($redirectUrl),
+                redirect()->route('users.profile', ['user' => $user->id])
+            );
         } catch (\Exception) {
             DB::rollBack();
             $this->authService->errorRecord(route('auth.show-confirm-form', $token), config('auth_module.inputs.confirm_code'));
@@ -124,7 +124,6 @@ class AuthController extends Controller
 
 
     }
-
 
     public function resendOtpCode($token)
     {
@@ -138,7 +137,7 @@ class AuthController extends Controller
         $otpData = $this->authService->createOtp($otp->user_id, $otp->login_id, $otp->type);
 
         if ($otp->type === TypeEnum::Email->value) {
-            $this->authService->sendEmail($otpData->otp_code, $otp->login_id);
+            UserRegistered::dispatch($otpData->otp_code, $otp->login_id);
         } elseif ($otp->type === TypeEnum::Mobile->value) {
             // send sms
         }

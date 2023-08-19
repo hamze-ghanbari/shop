@@ -108,9 +108,10 @@ $(document).ready(function () {
             },
             error: function (data) {
                 hideLoading();
-                if (data.status !== 500) {
-                    showErrors(data.responseJSON.errors, selectors);
+                if(data.responseJSON.errors['image']){
+                    $('#error-image').text(data.responseJSON.errors['image'][0])
                 }
+                showErrors(data.responseJSON.errors, selectors);
             }
         });
         // }

@@ -88,7 +88,7 @@
                                         <i class="fa-solid fa-edit"></i>
                                     </a>
                                     <a href="{{route('roles.destroy', ['role' => $role->id])}}" id="{{$role->id}}"
-                                       data-bs-toggle="tooltip" data-bs-placement="right" title="حذف نقش"
+                                       data-bs-toggle="tooltip"  data-bs-placement="right" title="حذف نقش"
                                        class="action-icon delete-role bg-red__shade-3 white__default">
                                         <i class="fa-solid fa-trash"></i>
                                     </a>
@@ -119,8 +119,7 @@
        class="add-mobile-btn rounded-circle bg-primary__shade-2 white__default position-fixed">
         <i class="fa-solid fa-plus"></i>
     </a>
-
-    <x-confirm-alert/>
+{{--    <x-confirm-alert />--}}
     <x-toast/>
 @endsection
 

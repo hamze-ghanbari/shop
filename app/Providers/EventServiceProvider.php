@@ -6,6 +6,9 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use Modules\Auth\Events\UserRegistered;
+use Modules\Auth\Http\Services\AuthService;
+use Modules\Auth\Listeners\SendEmailRegistered;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -18,6 +21,9 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        UserRegistered::class => [
+            SendEmailRegistered::class,
+        ],
     ];
 
     /**
@@ -25,7 +31,14 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+//        $this->app->bind(SendEmailRegistered::class, function ($app, $arguments) {
+//            return new AuthService(...$arguments);
+//        });
+
+
+//        $this->app->bindMethod([SendEmailRegistered::class, 'handle'], function (SendEmailRegistered $sendEmailRegistered, $app) {
+//            return $sendEmailRegistered->handle($app->make(AuthService::class));
+//        });
     }
 
     /**

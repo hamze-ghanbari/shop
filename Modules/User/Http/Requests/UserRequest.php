@@ -41,7 +41,8 @@ class UserRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'national_code' => convertPersianToEnglish($this->national_code)
+            'national_code' => convertNumbersToEnglish($this->national_code),
+            'mobile' => convertNumbersToEnglish($this->mobile)
         ]);
     }
 

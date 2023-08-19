@@ -7,4 +7,5 @@ use App\Repository\Contracts\BaseRepositoryInterface;
 interface CategoryRepositoryInterface extends BaseRepositoryInterface
 {
 
+    public function getCategoryWithTrashed($name);
 }

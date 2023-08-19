@@ -3,6 +3,8 @@
 namespace Modules\Product\Http\Services;
 
 use App\Http\Services\Image\ImageService;
+use App\Http\Services\Upload\Algoritms\Base64FIle;
+use App\Http\Services\Upload\Upload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
@@ -16,7 +18,8 @@ class CategoryService
 {
 
     public function __construct(
-        public CategoryRepositoryInterface $categoryRepository
+        public CategoryRepositoryInterface $categoryRepository,
+        public ImageService $imageService
     )
     {
     }
@@ -24,6 +27,10 @@ class CategoryService
     public function getSearchCategories(Request $request)
     {
         return $this->categoryRepository->with('parent')->search($request->query('search'))->paginate(15);
+    }
+
+    public function categoryExists(string $name){
+        return $this->categoryRepository->getCategoryWithTrashed($name);
     }
 
     public function createCategory(CategoryRequest $request, $image)
@@ -66,16 +73,17 @@ class CategoryService
 //
 //    }
 
-    public function uploadImage(ImageService $imageService, $image)
+    public function uploadImage($image, $type = 'file')
     {
-        $imageService->setExclusiveDirectory('uploads' . DIRECTORY_SEPARATOR . 'category_product');
-        $imageAddress = $imageService->base64Save($image);
+        $this->imageService->setExclusiveDirectory('uploads' . DIRECTORY_SEPARATOR . 'category_product');
 
-//        $directory = 'uploads' . DIRECTORY_SEPARATOR . 'category_product' . DIRECTORY_SEPARATOR;
-//
-//        if (!Storage::disk('public')->put($directory.$imageName, base64_decode($image))) {
-//            return Response::postError(route('categories.index'), 'خطا در آپلود تصویر');
-//        }
+        if ($type == 'file'){
+            $file = new \App\Http\Services\Upload\Algoritms\File($this->imageService, $image);
+        }else{
+            $file = new Base64FIle($this->imageService, $image);
+        }
+        $upload = new Upload($file);
+       $imageAddress = $upload->upload();
 
         return $imageAddress ?? false;
     }

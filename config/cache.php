@@ -110,6 +110,13 @@ return [
     |
     */
 
-    'prefix' => env('CACHE_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_cache_'),
+    'prefix' => env('CACHE_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_cache_'),
 
+    'entities' => [
+        'user' => true,
+        'category' => true,
+        'brand' => false
+    ],
+
+    'entities_cache_time' => 600
 ];

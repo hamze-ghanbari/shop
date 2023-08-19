@@ -4,6 +4,8 @@ namespace Modules\Auth\Providers;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
+use Modules\Auth\Events\UserRegistered;
+use Modules\Auth\Listeners\SendEmailRegistered;
 use Modules\Auth\Repository\OtpRepository;
 use Modules\Auth\Repository\OtpRepositoryInterface;
 

@@ -17,6 +17,4 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         return $this->findWhere([$field => $value])->withTrashed()->first();
     }
 
-
-
 }

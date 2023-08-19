@@ -3,11 +3,9 @@
 namespace Modules\Product\Http\Services;
 
 use App\Http\Services\Image\ImageService;
+use App\Http\Services\Upload\Algoritms\Base64FIle;
+use App\Http\Services\Upload\Upload;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Modules\Product\Entities\Brand;
 use Modules\Product\Http\Requests\BrandRequest;
 use Modules\Product\Repository\BrandRepositoryInterface;
@@ -16,7 +14,8 @@ class BrandService
 {
 
     public function __construct(
-        public BrandRepositoryInterface $brandRepository
+        public BrandRepositoryInterface $brandRepository,
+        public ImageService $imageService
     )
     {
     }
@@ -24,6 +23,10 @@ class BrandService
     public function getSearchBrands(Request $request)
     {
         return $this->brandRepository->search($request->query('search'))->paginate(15);
+    }
+
+    public function brandExists(string $name){
+        return $this->brandRepository->getBrandWithTrashed($name);
     }
 
     public function createBrand(BrandRequest $request, $image)
@@ -66,10 +69,17 @@ class BrandService
 //
 //    }
 
-    public function uploadImage(ImageService $imageService, $image)
+    public function uploadImage($image, $type = 'file')
     {
-        $imageService->setExclusiveDirectory('uploads' . DIRECTORY_SEPARATOR . 'brands');
-        $imageAddress = $imageService->base64Save($image);
+        $this->imageService->setExclusiveDirectory('uploads' . DIRECTORY_SEPARATOR . 'brands');
+
+        if ($type == 'file'){
+            $file = new \App\Http\Services\Upload\Algoritms\File($this->imageService, $image);
+        }else{
+            $file = new Base64FIle($this->imageService, $image);
+        }
+        $upload = new Upload($file);
+        $imageAddress = $upload->upload();
 
         return $imageAddress ?? false;
     }

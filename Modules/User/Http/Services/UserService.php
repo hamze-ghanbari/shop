@@ -21,14 +21,17 @@ class UserService
 
     public function getSearchUsers(Request $request)
     {
-//        return Cache::remember('users', 600, function () use($request) {
-            return $this->userRepository->with('roles')->search($request->query('search'), $request->query('filter-date'))->paginate(15);
-//        });
+        if (config('cache.entities.user')) {
+            return Cache::remember('users', config('cache.entities_cache_time'), function () use ($request) {
+                return $this->userRepository->with('roles')->search($request->query('search'), $request->query('filter-date'))->paginate(15);
+            });
+        }
+//        return $this->userRepository->with('roles')->search($request->query('search'), $request->query('filter-date'))->paginate(15);
     }
 
     public function getRoles(User $user)
     {
-        $roles = $this->roleRepository->all();
+        $roles = $this->roleRepository->getRoles();
         $userRoleId = $user->roles()->pluck('id')->toArray();
         return [
             'roles' => $roles,

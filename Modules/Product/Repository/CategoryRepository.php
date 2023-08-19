@@ -13,4 +13,7 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
         return ProductCategory::class;
     }
 
+    public function getCategoryWithTrashed($name){
+        return $this->getModel()->withTrashed()->where(['name' => $name])->exists();
+    }
 }

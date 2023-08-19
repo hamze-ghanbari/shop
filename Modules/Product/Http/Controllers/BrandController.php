@@ -34,10 +34,30 @@ class BrandController extends Controller
 
     public function store(BrandRequest $request, ImageService $imageService)
     {
-        $imageAddress = $this->brandService->uploadImage($imageService, $request->input('image'));
+
+        if($this->brandService->brandExists($request->input('name'))){
+            return result(
+                Response::postError(route('brands.create'), 'این برند قبلا ثبت شده است'),
+                redirect()->route('brands.create')->with('add-error', 'این برند قبلا ثبت شده است')
+            );
+        }
+
+        if($request->ajax()){
+            $type = 'base64';
+            $image = $request->input('image');
+        }else{
+            $type = 'file';
+            $image = $request->file('image');
+        }
+
+        $imageAddress = $this->brandService->uploadImage($image, $type);
 
         if(!$imageAddress){
-            return Response::postSuccess(route('brands.create'), 'خطا در آپلود تصویر');
+            $message = 'خطا در آپلود تصویر';
+            return result(
+                Response::postError(route('brands.create'), $message),
+                redirect()->back()->with('add-error', $message)->withInput($request->fields())
+            );
         }
 
         $this->brandService->createBrand($request, $imageAddress);
@@ -45,7 +65,7 @@ class BrandController extends Controller
         $message = 'ثبت برند با موفقیت انجام شد';
         return result(
             Response::postSuccess(route('brands.create'), $message),
-            redirect()->route('brands.create')->with('success', $message)
+            redirect()->route('brands.create')->with('add-success', $message)
         );
     }
 
@@ -55,26 +75,46 @@ class BrandController extends Controller
         return view('product::brands.create', compact('brand', 'brands'));
     }
 
-
     public function update(BrandRequest $request, ImageService $imageService, Brand $brand)
     {
-        $imageAddress = $this->brandService->uploadImage($imageService, $request->input('image'));
+//        if($this->brandService->brandExists($request->input('name'))){
+//            return result(
+//                Response::postError(route('brands.create'), 'این برند قبلا ثبت شده است'),
+//                redirect()->route('brands.create')->with('error', 'این برند قبلا ثبت شده است')
+//            );
+//        }
+
+        if($request->ajax()){
+            $type = 'base64';
+            $image = $request->input('image');
+        }else{
+            $type = 'file';
+            $image = $request->file('image');
+        }
+
+        $imageAddress = $this->brandService->uploadImage($image, $type);
 
         if(!$imageAddress){
-            return Response::postSuccess(route('brands.index'), 'خطا در آپلود تصویر');
+            $message = 'خطا در آپلود تصویر';
+            return result(
+                Response::postError(route('brands.create'), $message),
+                redirect()->back()->with('add-error', $message)->withInput($request->fields())
+            );
         }
 
         $brand = $this->brandService->updateBrand($request, $brand->id, $imageAddress);
 
         if ($brand) {
+            $message = 'ویرایش برند با موفقیت انجام شد';
             return result(
-                Response::postSuccess(route('brands.index'), 'ویرایش برند با موفقیت انجام شد', ['updated' => true]),
-                redirect()->route('brands.index')
+                Response::postSuccess(route('brands.index'), $message, ['updated' => true]),
+                redirect()->route('brands.index')->with('add-success', $message)
             );
         } else {
+            $message = 'خطا در ویرایش برند';
             return result(
-                Response::postError(route('brands.create'), 'خطا در ویرایش برند'),
-                redirect()->route('brands.create')
+                Response::postError(route('brands.create'), $message),
+                redirect()->route('brands.create')->with('add-error', $message)->withInput($request->fields())
             );
         }
     }

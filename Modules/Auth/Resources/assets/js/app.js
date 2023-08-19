@@ -2,25 +2,26 @@ import {
     checkPattern,
     minLength,
     maxLength,
-    required,checkBlacklist, email, phone
+    required, checkBlacklist, email, phone, convertNumbersToEnglish, isNumber
 } from "../../../../../public/js/modules/validation";
 
 $(document).ready(function () {
     $.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-    }
-});
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+        }
+    });
     let textField = $('#user-name');
     let emptyBtn = $('#empty-icon');
     let confirmIcon = $('#confirm-icon');
     let fieldBox = $('#field-box');
+    let userNameConverted = textField.val();
 
     if (textField) {
         textField.on('keyup', function () {
-
-            if (textField.val().trim().length > 0) {
-                if (email(textField.val()) || phone(textField.val())) {
+            userNameConverted = convertNumbersToEnglish(textField.val());
+            if (userNameConverted.trim().length > 0) {
+                if (email(userNameConverted) || phone(userNameConverted)) {
                     confirmIcon.removeClass('d-none');
                     emptyBtn.addClass('d-none');
                     fieldBox.removeClass('border-red').addClass('border-green');
@@ -49,7 +50,6 @@ $(document).ready(function () {
     }
 
 
-
     // otp form
     $('#otp-form').on('submit', function (event) {
         event.preventDefault();
@@ -63,7 +63,7 @@ $(document).ready(function () {
         }
 
 
-        if (!email(textField.val()) && !phone(textField.val())) {
+        if (!email(convertNumbersToEnglish(textField.val())) && !phone(convertNumbersToEnglish(textField.val()))) {
             $('#error-user-name').text('ایمیل یا شماره موبایل وارد شده معتبر نمی باشد');
             return false;
         }
@@ -111,21 +111,18 @@ ${minutes}</span>:<span class="small-copy-strong px-1">${seconds}</span> دوب�
         });
     });
 
-// confirm form
-    $('#confirm-form').on('submit', function (event) {
-        event.preventDefault();
+    $('#confirm-form input').on('keyup', function () {
         if (required([
             {
                 name: 'confirm_code',
                 attribute: 'کد تایید'
             }
-        ]) || checkPattern([
+        ]) ||  isNumber([
             {
                 name: 'confirm_code',
-                regex: /^[0-9]+$/,
-                message: 'کد تایید باید عدد باشد'
+                attribute: 'کد تایید'
             }
-        ]) || minLength([
+        ])|| minLength([
             {
                 name: 'confirm_code',
                 length: 5,
@@ -140,50 +137,87 @@ ${minutes}</span>:<span class="small-copy-strong px-1">${seconds}</span> دوب�
         ])) || checkBlacklist(['confirm_code'])) {
             return false;
         }
-        $('.login-btn').prop('disabled', true).html(`<i class="fa-solid fa-spinner loading"></i>`);
-        $.ajax({
-            type: 'POST',
-            url: $(this).attr('action'),
-            data: {
-                confirm_code: $("input[name='confirm_code']").val()
-            },
-            success: function ({hasError, message, url}) {
-                if (hasError) {
-                    $('#error-confirm-code').empty();
-                    toastError(message);
-                    $('.login-btn').prop('disabled', false).html('تایید');
-                } else {
-                    window.location.href = url;
-                }
-            },
-            error: function (data) {
-                if (data.responseJSON.time) {
-                    $(".login-btn").html('تایید');
-                    let countDownTime = (+(new Date().getTime()) + data.responseJSON.time);
-                    let minutes, seconds;
-                    let time = setInterval(function () {
-                        const now = new Date().getTime();
-                        const distance = countDownTime - now;
-                        minutes = '0' + Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                        seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                        seconds = seconds < 10 ? '0' + seconds : seconds;
-                        $('#error-confirm-code').empty().append(`خطا در ارسال اطلاعات . لطفا پس از <span class="small-copy-strong px-1">
-${minutes}</span>:<span class="small-copy-strong px-1">${seconds}</span> دوباره امتحان کنید`);
-                        ;
-                        if (distance < 0) {
-                            clearInterval(time);
-                            $('#error-confirm-code').empty();
-                            $('.login-btn').prop('disabled', false);
-                        }
-                    }, 1000);
-
-
-                } else {
-                    $('.login-btn').prop('disabled', false).html('تایید');
-                    $('#error-confirm-code').html(data.responseJSON.message);
-                }
-            }
-        });
+        // if($(this).val().length > 4){
+        sendConfirmAjax();
+        // }
     });
-})
-;
+
+// confirm form
+    $('#confirm-form').on('submit', function (event) {
+        event.preventDefault();
+        if (
+            required([
+                {
+                    name: 'confirm_code',
+                    attribute: 'کد تایید'
+                }
+            ]) || isNumber([
+                {
+                    name: 'confirm_code',
+                    attribute: 'کد تایید'
+                }
+            ]) || minLength([
+                {
+                    name: 'confirm_code',
+                    length: 5,
+                    message: 'کد تایید نباید کمتر از 5 رقم باشد'
+                }
+            ]) || maxLength(([
+                {
+                    name: 'confirm_code',
+                    length: 5,
+                    message: 'کد تایید نباید بیشتر از 5 رقم باشد'
+                }
+            ])) || checkBlacklist(['confirm_code'])) {
+            return false;
+        }
+        sendConfirmAjax();
+    });
+});
+
+function sendConfirmAjax() {
+    $('.login-btn').prop('disabled', true).html(`<i class="fa-solid fa-spinner loading"></i>`);
+    $.ajax({
+        type: 'POST',
+        url: $(this).attr('action'),
+        data: {
+            confirm_code: convertNumbersToEnglish($("input[name='confirm_code']").val())
+        },
+        success: function ({hasError, message, url}) {
+            if (hasError) {
+                $('#error-confirm-code').empty();
+                toastError(message);
+                $('.login-btn').prop('disabled', false).html('تایید');
+            } else {
+                window.location.href = url;
+            }
+        },
+        error: function (data) {
+            if (data.responseJSON.time) {
+                $(".login-btn").html('تایید');
+                let countDownTime = (+(new Date().getTime()) + data.responseJSON.time);
+                let minutes, seconds;
+                let time = setInterval(function () {
+                    const now = new Date().getTime();
+                    const distance = countDownTime - now;
+                    minutes = '0' + Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                    seconds = seconds < 10 ? '0' + seconds : seconds;
+                    $('#error-confirm-code').empty().append(`خطا در ارسال اطلاعات . لطفا پس از <span class="small-copy-strong px-1">
+${minutes}</span>:<span class="small-copy-strong px-1">${seconds}</span> دوباره امتحان کنید`);
+                    ;
+                    if (distance < 0) {
+                        clearInterval(time);
+                        $('#error-confirm-code').empty();
+                        $('.login-btn').prop('disabled', false);
+                    }
+                }, 1000);
+
+
+            } else {
+                $('.login-btn').prop('disabled', false).html('تایید');
+                $('#error-confirm-code').html(data.responseJSON.message);
+            }
+        }
+    });
+}

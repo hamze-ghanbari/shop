@@ -19,6 +19,10 @@ class RoleService
         return $this->roleRepository->with('permissions')->search($request->query('search'))->paginate(15);
     }
 
+    public function roleExists($name, $persianName){
+        return $this->roleRepository->checkRole($name, $persianName);
+    }
+
     public function createRole(Request $request)
     {
         $status = $request->has('status') ? $request->input('status') : 0;

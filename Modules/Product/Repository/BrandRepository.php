@@ -17,4 +17,8 @@ class BrandRepository extends BaseRepository implements BrandRepositoryInterface
       return $this->getModel()->search($search);
     }
 
+    public function getBrandWithTrashed($name){
+        return $this->getModel()->where(['name' => $name])->exists();
+    }
+
 }

@@ -38,14 +38,21 @@ class RoleController extends Controller
         return view('user_module::roles.create');
     }
 
-
     public function store(RoleRequest $request)
     {
-        $this->roleService->createRole($request);
+        if($this->roleService->roleExists($request->input('name'), $request->input('persian_name'))){
+            $message = 'این نقش قبلا ثبت شده است';
+            return result(
+                Response::postError(route('roles.create'), $message),
+                redirect()->route('roles.create')->with('add-error', $message)->withInput($request->except('status'))
+            );
+        }
 
+        $this->roleService->createRole($request);
+        $message = 'ثبت نقش با موفقیت انجام شد';
         return result(
-            Response::postSuccess(route('roles.create'), 'ثبت نقش با موفقیت انجام شد'),
-            redirect()->route('roles.index')
+            Response::postSuccess(route('roles.create'), $message),
+            redirect()->route('roles.create')->with('add-success', $message)
         );
     }
 
@@ -54,9 +61,19 @@ class RoleController extends Controller
         return view('user_module::roles.create', compact('role'));
     }
 
-
     public function update(RoleRequest $request, Role $role)
     {
+        // req
+        // role
+//        if($this->roleService->roleExists($request->input('name'), $request->input('persian_name'))
+//            && ($role->name !== $request->input('name') || $role->persian_name !== $request->input('persian_name'))){
+//            $message = 'این نقش قبلا ثبت شده است';
+//            return result(
+//                Response::postError(route('roles.edit', $role), $message),
+//                redirect()->route('roles.edit', $role)->with('add-error', $message)->withInput($request->except('status'))
+//            );
+//        }
+
         $role = $this->roleService->updateRole($request, $role);
         if ($role) {
             return result(
@@ -64,9 +81,10 @@ class RoleController extends Controller
                 redirect()->route('roles.index')
             );
         } else {
+            $message = 'خطا در ویرایش نقش';
             return result(
-                Response::postError(route('roles.create'), 'خطا در ویرایش نقش'),
-                redirect()->route('roles.create')
+                Response::postError(route('roles.edit', $role), $message),
+                redirect()->route('roles.edit', $role)->with('add-error', $message)->withInput($request->except('status'))
             );
         }
     }
@@ -108,18 +126,20 @@ class RoleController extends Controller
     {
 
         $getPermission = $this->roleService->getPermissions($role);
-
         $permissions = $getPermission['permissions'];
         $rolePermissionsId = $getPermission['ids'];
+
         return view('user_module::roles.add-permissions', compact('role', 'permissions', 'rolePermissionsId'));
     }
 
     public function addPermissionToRole(Request $request, Role $role)
     {
        $this->roleService->addPermissionToRole($request, $role);
+       $message = 'ثبت سطوح دسترسی با موفقیت انجام شد';
         return result(
-            Response::postSuccess(route('roles.index'), 'ثبت سطوح دسترسی با موفقیت انجام شد'),
+            Response::postSuccess(route('roles.index'), $message),
             redirect()->route('roles.index')
         );
     }
+
 }

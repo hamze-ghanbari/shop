@@ -51,7 +51,8 @@ class OtpRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'confirm_code' => convertPersianToEnglish($this->confirm_code)
+            'confirm_code' => convertNumbersToEnglish($this->confirm_code),
+            'user_name' => convertNumbersToEnglish($this->user_name)
         ]);
     }
 }

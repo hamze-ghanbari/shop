@@ -14,6 +14,7 @@
 
 @section('content')
     <main class="w-100 h-100 flex-center flex-wrap">
+        <x-alert />
         <section class="form-box col-12 col-md-6 p-2 bg-white__default">
             <div class="form-header d-flex align-items-center">
                 <div class="col-3">

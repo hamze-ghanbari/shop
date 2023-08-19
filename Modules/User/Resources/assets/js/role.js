@@ -135,6 +135,12 @@ $(document).ready(function () {
 
     $('.delete-role').click(function (event) {
         event.preventDefault();
+        // $("#confirm-modal").modal('show');
+        //
+        // $("#confirm-modal").on('hidden.bs.modal', function () {
+        //     console.log(!!$('#result-confirm').html());
+        // });
+
         let element = $(this);
         // confirmModal('برای حذف مطمئن هستید؟',   'این آیتم حذف خواهد شد', (result) => {
         //      if(result){

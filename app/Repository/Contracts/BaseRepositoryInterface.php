@@ -28,6 +28,8 @@ interface BaseRepositoryInterface
 
     public function findWhereBetween($field, array $values, $columns = ['*']);
 
+    public function exists(array $where);
+
     public function create(array $attributes);
 
     public function update(array $attributes, $id);
