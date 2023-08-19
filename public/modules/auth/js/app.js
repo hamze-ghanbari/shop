@@ -12,6 +12,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "checkBlacklist": () => (/* binding */ checkBlacklist),
 /* harmony export */   "checkPattern": () => (/* binding */ checkPattern),
+/* harmony export */   "convertNumbersToEnglish": () => (/* binding */ convertNumbersToEnglish),
 /* harmony export */   "email": () => (/* binding */ email),
 /* harmony export */   "emailRegex": () => (/* binding */ emailRegex),
 /* harmony export */   "emptyInput": () => (/* binding */ emptyInput),
@@ -286,7 +287,7 @@ function isNumber(elements) {
       var field = document.getElementsByName(element['name']);
       var messageBox = document.getElementById("error-".concat(element['name'].replace('_', '-')));
       // typeof field[0].value !== 'number'
-      if (field[0].value.match('/^[0-9]$/') || isNaN(field[0].value)) {
+      if (convertNumbersToEnglish(field[0].value).match('/^[0-9]$/') || isNaN(convertNumbersToEnglish(field[0].value))) {
         messageBox.innerText = "".concat(element['attribute'], " \u0628\u0627\u06CC\u062F \u0639\u062F\u062F \u0628\u0627\u0634\u062F");
         errorClass(field[0].parentNode, 'border-success', 'border-red');
         createIconInput(field[0].parentNode, 'warning', 'red');
@@ -339,6 +340,16 @@ function nationalCode(nationalCode) {
   }
   return !result;
 }
+function convertNumbersToEnglish(str) {
+  var persianNumbers = [/۰/g, /۱/g, /۲/g, /۳/g, /۴/g, /۵/g, /۶/g, /۷/g, /۸/g, /۹/g],
+    arabicNumbers = [/٠/g, /١/g, /٢/g, /٣/g, /٤/g, /٥/g, /٦/g, /٧/g, /٨/g, /٩/g];
+  if (typeof str === 'string') {
+    for (var i = 0; i < 10; i++) {
+      str = str.replace(persianNumbers[i], i).replace(arabicNumbers[i], i);
+    }
+  }
+  return str;
+}
 function emptyInput(selectors) {
   selectors.map(function (item) {
     $("#error-".concat(item)).empty();
@@ -371,7 +382,7 @@ function getData(selectors) {
         break;
     }
     if (type[item] !== 'file') {
-      data[item] = $("".concat(element, "[name=").concat(item, "]").concat(typeInput)).val();
+      data[item] = $("".concat(element, "[name=").concat(item, "] ").concat(typeInput)).val();
     } else {
       data[item] = $("".concat(element, "[name=").concat(item, "]"))[0].files[0];
     }
@@ -456,10 +467,12 @@ $(document).ready(function () {
   var emptyBtn = $('#empty-icon');
   var confirmIcon = $('#confirm-icon');
   var fieldBox = $('#field-box');
+  var userNameConverted = textField.val();
   if (textField) {
     textField.on('keyup', function () {
-      if (textField.val().trim().length > 0) {
-        if ((0,_public_js_modules_validation__WEBPACK_IMPORTED_MODULE_0__.email)(textField.val()) || (0,_public_js_modules_validation__WEBPACK_IMPORTED_MODULE_0__.phone)(textField.val())) {
+      userNameConverted = (0,_public_js_modules_validation__WEBPACK_IMPORTED_MODULE_0__.convertNumbersToEnglish)(textField.val());
+      if (userNameConverted.trim().length > 0) {
+        if ((0,_public_js_modules_validation__WEBPACK_IMPORTED_MODULE_0__.email)(userNameConverted) || (0,_public_js_modules_validation__WEBPACK_IMPORTED_MODULE_0__.phone)(userNameConverted)) {
           confirmIcon.removeClass('d-none');
           emptyBtn.addClass('d-none');
           fieldBox.removeClass('border-red').addClass('border-green');
@@ -493,7 +506,7 @@ $(document).ready(function () {
     }]) || (0,_public_js_modules_validation__WEBPACK_IMPORTED_MODULE_0__.checkBlacklist)(['user_name'])) {
       return false;
     }
-    if (!(0,_public_js_modules_validation__WEBPACK_IMPORTED_MODULE_0__.email)(textField.val()) && !(0,_public_js_modules_validation__WEBPACK_IMPORTED_MODULE_0__.phone)(textField.val())) {
+    if (!(0,_public_js_modules_validation__WEBPACK_IMPORTED_MODULE_0__.email)((0,_public_js_modules_validation__WEBPACK_IMPORTED_MODULE_0__.convertNumbersToEnglish)(textField.val())) && !(0,_public_js_modules_validation__WEBPACK_IMPORTED_MODULE_0__.phone)((0,_public_js_modules_validation__WEBPACK_IMPORTED_MODULE_0__.convertNumbersToEnglish)(textField.val()))) {
       $('#error-user-name').text('ایمیل یا شماره موبایل وارد شده معتبر نمی باشد');
       return false;
     }
@@ -541,17 +554,13 @@ $(document).ready(function () {
       }
     });
   });
-
-  // confirm form
-  $('#confirm-form').on('submit', function (event) {
-    event.preventDefault();
+  $('#confirm-form input').on('keyup', function () {
     if ((0,_public_js_modules_validation__WEBPACK_IMPORTED_MODULE_0__.required)([{
       name: 'confirm_code',
       attribute: 'کد تایید'
-    }]) || (0,_public_js_modules_validation__WEBPACK_IMPORTED_MODULE_0__.checkPattern)([{
+    }]) || (0,_public_js_modules_validation__WEBPACK_IMPORTED_MODULE_0__.isNumber)([{
       name: 'confirm_code',
-      regex: /^[0-9]+$/,
-      message: 'کد تایید باید عدد باشد'
+      attribute: 'کد تایید'
     }]) || (0,_public_js_modules_validation__WEBPACK_IMPORTED_MODULE_0__.minLength)([{
       name: 'confirm_code',
       length: 5,
@@ -563,52 +572,80 @@ $(document).ready(function () {
     }]) || (0,_public_js_modules_validation__WEBPACK_IMPORTED_MODULE_0__.checkBlacklist)(['confirm_code'])) {
       return false;
     }
-    $('.login-btn').prop('disabled', true).html("<i class=\"fa-solid fa-spinner loading\"></i>");
-    $.ajax({
-      type: 'POST',
-      url: $(this).attr('action'),
-      data: {
-        confirm_code: $("input[name='confirm_code']").val()
-      },
-      success: function success(_ref2) {
-        var hasError = _ref2.hasError,
-          message = _ref2.message,
-          url = _ref2.url;
-        if (hasError) {
-          $('#error-confirm-code').empty();
-          toastError(message);
-          $('.login-btn').prop('disabled', false).html('تایید');
-        } else {
-          window.location.href = url;
-        }
-      },
-      error: function error(data) {
-        if (data.responseJSON.time) {
-          $(".login-btn").html('تایید');
-          var countDownTime = +new Date().getTime() + data.responseJSON.time;
-          var minutes, seconds;
-          var time = setInterval(function () {
-            var now = new Date().getTime();
-            var distance = countDownTime - now;
-            minutes = '0' + Math.floor(distance % (1000 * 60 * 60) / (1000 * 60));
-            seconds = Math.floor(distance % (1000 * 60) / 1000);
-            seconds = seconds < 10 ? '0' + seconds : seconds;
-            $('#error-confirm-code').empty().append("\u062E\u0637\u0627 \u062F\u0631 \u0627\u0631\u0633\u0627\u0644 \u0627\u0637\u0644\u0627\u0639\u0627\u062A . \u0644\u0637\u0641\u0627 \u067E\u0633 \u0627\u0632 <span class=\"small-copy-strong px-1\">\n".concat(minutes, "</span>:<span class=\"small-copy-strong px-1\">").concat(seconds, "</span> \u062F\u0648\u0628\u0627\u0631\u0647 \u0627\u0645\u062A\u062D\u0627\u0646 \u06A9\u0646\u06CC\u062F"));
-            ;
-            if (distance < 0) {
-              clearInterval(time);
-              $('#error-confirm-code').empty();
-              $('.login-btn').prop('disabled', false);
-            }
-          }, 1000);
-        } else {
-          $('.login-btn').prop('disabled', false).html('تایید');
-          $('#error-confirm-code').html(data.responseJSON.message);
-        }
-      }
-    });
+    // if($(this).val().length > 4){
+    sendConfirmAjax();
+    // }
+  });
+
+  // confirm form
+  $('#confirm-form').on('submit', function (event) {
+    event.preventDefault();
+    if ((0,_public_js_modules_validation__WEBPACK_IMPORTED_MODULE_0__.required)([{
+      name: 'confirm_code',
+      attribute: 'کد تایید'
+    }]) || (0,_public_js_modules_validation__WEBPACK_IMPORTED_MODULE_0__.isNumber)([{
+      name: 'confirm_code',
+      attribute: 'کد تایید'
+    }]) || (0,_public_js_modules_validation__WEBPACK_IMPORTED_MODULE_0__.minLength)([{
+      name: 'confirm_code',
+      length: 5,
+      message: 'کد تایید نباید کمتر از 5 رقم باشد'
+    }]) || (0,_public_js_modules_validation__WEBPACK_IMPORTED_MODULE_0__.maxLength)([{
+      name: 'confirm_code',
+      length: 5,
+      message: 'کد تایید نباید بیشتر از 5 رقم باشد'
+    }]) || (0,_public_js_modules_validation__WEBPACK_IMPORTED_MODULE_0__.checkBlacklist)(['confirm_code'])) {
+      return false;
+    }
+    sendConfirmAjax();
   });
 });
+function sendConfirmAjax() {
+  $('.login-btn').prop('disabled', true).html("<i class=\"fa-solid fa-spinner loading\"></i>");
+  $.ajax({
+    type: 'POST',
+    url: $(this).attr('action'),
+    data: {
+      confirm_code: (0,_public_js_modules_validation__WEBPACK_IMPORTED_MODULE_0__.convertNumbersToEnglish)($("input[name='confirm_code']").val())
+    },
+    success: function success(_ref2) {
+      var hasError = _ref2.hasError,
+        message = _ref2.message,
+        url = _ref2.url;
+      if (hasError) {
+        $('#error-confirm-code').empty();
+        toastError(message);
+        $('.login-btn').prop('disabled', false).html('تایید');
+      } else {
+        window.location.href = url;
+      }
+    },
+    error: function error(data) {
+      if (data.responseJSON.time) {
+        $(".login-btn").html('تایید');
+        var countDownTime = +new Date().getTime() + data.responseJSON.time;
+        var minutes, seconds;
+        var time = setInterval(function () {
+          var now = new Date().getTime();
+          var distance = countDownTime - now;
+          minutes = '0' + Math.floor(distance % (1000 * 60 * 60) / (1000 * 60));
+          seconds = Math.floor(distance % (1000 * 60) / 1000);
+          seconds = seconds < 10 ? '0' + seconds : seconds;
+          $('#error-confirm-code').empty().append("\u062E\u0637\u0627 \u062F\u0631 \u0627\u0631\u0633\u0627\u0644 \u0627\u0637\u0644\u0627\u0639\u0627\u062A . \u0644\u0637\u0641\u0627 \u067E\u0633 \u0627\u0632 <span class=\"small-copy-strong px-1\">\n".concat(minutes, "</span>:<span class=\"small-copy-strong px-1\">").concat(seconds, "</span> \u062F\u0648\u0628\u0627\u0631\u0647 \u0627\u0645\u062A\u062D\u0627\u0646 \u06A9\u0646\u06CC\u062F"));
+          ;
+          if (distance < 0) {
+            clearInterval(time);
+            $('#error-confirm-code').empty();
+            $('.login-btn').prop('disabled', false);
+          }
+        }, 1000);
+      } else {
+        $('.login-btn').prop('disabled', false).html('تایید');
+        $('#error-confirm-code').html(data.responseJSON.message);
+      }
+    }
+  });
+}
 })();
 
 /******/ })()

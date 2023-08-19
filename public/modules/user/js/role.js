@@ -107,6 +107,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "checkBlacklist": () => (/* binding */ checkBlacklist),
 /* harmony export */   "checkPattern": () => (/* binding */ checkPattern),
+/* harmony export */   "convertNumbersToEnglish": () => (/* binding */ convertNumbersToEnglish),
 /* harmony export */   "email": () => (/* binding */ email),
 /* harmony export */   "emailRegex": () => (/* binding */ emailRegex),
 /* harmony export */   "emptyInput": () => (/* binding */ emptyInput),
@@ -381,7 +382,7 @@ function isNumber(elements) {
       var field = document.getElementsByName(element['name']);
       var messageBox = document.getElementById("error-".concat(element['name'].replace('_', '-')));
       // typeof field[0].value !== 'number'
-      if (field[0].value.match('/^[0-9]$/') || isNaN(field[0].value)) {
+      if (convertNumbersToEnglish(field[0].value).match('/^[0-9]$/') || isNaN(convertNumbersToEnglish(field[0].value))) {
         messageBox.innerText = "".concat(element['attribute'], " \u0628\u0627\u06CC\u062F \u0639\u062F\u062F \u0628\u0627\u0634\u062F");
         errorClass(field[0].parentNode, 'border-success', 'border-red');
         createIconInput(field[0].parentNode, 'warning', 'red');
@@ -434,6 +435,16 @@ function nationalCode(nationalCode) {
   }
   return !result;
 }
+function convertNumbersToEnglish(str) {
+  var persianNumbers = [/۰/g, /۱/g, /۲/g, /۳/g, /۴/g, /۵/g, /۶/g, /۷/g, /۸/g, /۹/g],
+    arabicNumbers = [/٠/g, /١/g, /٢/g, /٣/g, /٤/g, /٥/g, /٦/g, /٧/g, /٨/g, /٩/g];
+  if (typeof str === 'string') {
+    for (var i = 0; i < 10; i++) {
+      str = str.replace(persianNumbers[i], i).replace(arabicNumbers[i], i);
+    }
+  }
+  return str;
+}
 function emptyInput(selectors) {
   selectors.map(function (item) {
     $("#error-".concat(item)).empty();
@@ -466,7 +477,7 @@ function getData(selectors) {
         break;
     }
     if (type[item] !== 'file') {
-      data[item] = $("".concat(element, "[name=").concat(item, "]").concat(typeInput)).val();
+      data[item] = $("".concat(element, "[name=").concat(item, "] ").concat(typeInput)).val();
     } else {
       data[item] = $("".concat(element, "[name=").concat(item, "]"))[0].files[0];
     }
@@ -662,6 +673,12 @@ $(document).ready(function () {
 
   $('.delete-role').click(function (event) {
     event.preventDefault();
+    // $("#confirm-modal").modal('show');
+    //
+    // $("#confirm-modal").on('hidden.bs.modal', function () {
+    //     console.log(!!$('#result-confirm').html());
+    // });
+
     var element = $(this);
     // confirmModal('برای حذف مطمئن هستید؟',   'این آیتم حذف خواهد شد', (result) => {
     //      if(result){

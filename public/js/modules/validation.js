@@ -197,7 +197,7 @@ export function isNumber(elements) {
         let field = document.getElementsByName(element['name']);
         let messageBox = document.getElementById(`error-${element['name'].replace('_', '-')}`);
         // typeof field[0].value !== 'number'
-        if (field[0].value.match('/^[0-9]$/') || isNaN(field[0].value)) {
+        if (convertNumbersToEnglish(field[0].value).match('/^[0-9]$/') || isNaN(convertNumbersToEnglish(field[0].value))) {
             messageBox.innerText = `${element['attribute']} باید عدد باشد`;
             errorClass(field[0].parentNode, 'border-success', 'border-red');
             createIconInput(field[0].parentNode, 'warning', 'red');
@@ -255,6 +255,18 @@ export function nationalCode(nationalCode, selector = 'national-code') {
     return !result;
 }
 
+export function convertNumbersToEnglish(str) {
+    let persianNumbers = [/۰/g, /۱/g, /۲/g, /۳/g, /۴/g, /۵/g, /۶/g, /۷/g, /۸/g, /۹/g],
+        arabicNumbers  = [/٠/g, /١/g, /٢/g, /٣/g, /٤/g, /٥/g, /٦/g, /٧/g, /٨/g, /٩/g];
+
+    if (typeof str === 'string') {
+        for (let i = 0; i < 10; i++) {
+            str = str.replace(persianNumbers[i], i).replace(arabicNumbers[i], i);
+        }
+    }
+    return str;
+}
+
 export function emptyInput(selectors) {
     selectors.map((item) => {
         $(`#error-${item}`).empty();
@@ -288,7 +300,7 @@ export function getData(selectors, type = {}) {
                 break;
         }
         if (type[item] !== 'file') {
-            data[item] = $(`${element}[name=${item}]${typeInput}`).val();
+            data[item] = $(`${element}[name=${item}] ${typeInput}`).val();
         } else {
             data[item] = $(`${element}[name=${item}]`)[0].files[0];
         }
