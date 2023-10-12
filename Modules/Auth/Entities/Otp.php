@@ -12,11 +12,7 @@ class Otp extends Model
 
     protected $guarded = ['id'];
 
-//    protected static function newFactory()
-//    {
-//        return \Modules\Auth\Database\factories\OtpFactory::new();
-//    }
-
+ 
     public function user()
     {
     return $this->belongsTo(User::class);
